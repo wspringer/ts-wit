@@ -4,7 +4,7 @@ describe("Wit Grammar", () => {
   const matchTest = (input: string) => {
     const match = grammar.match(input);
     if (!match.succeeded()) {
-      console.log("ERROR", match.message);
+      throw new Error(`Grammar match failed: ${match.message}`);
     }
     expect(match.succeeded()).toBe(true);
   };
