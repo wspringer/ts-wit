@@ -1,7 +1,7 @@
 import * as ohm from "ohm-js";
 
 export const grammar = ohm.grammar(String.raw`
-  Wit {
+Wit {
   File
     = (PackageDecl ";")? (PackageItem | NestedPackageDefinition)*
 
@@ -168,4 +168,4 @@ export const grammar = ohm.grammar(String.raw`
     = (lower+) ("-" lower*)*
 
 }
-  `);
+  `.trim());
