@@ -129,4 +129,89 @@ describe("Wit Grammar", () => {
       }
     `);
   });
+
+  describe("comments", () => {
+    test("single line comments", () => {
+      matchTest(`
+        // This is a comment
+        package test:example/path@1.0.0;
+
+        interface test {
+          // Comment inside interface
+          type number = u32;
+        }
+      `);
+    });
+
+    test("multi-line comments", () => {
+      matchTest(`
+        /* This is a
+           multi-line comment */
+        package test:example/path@1.0.0;
+
+        interface test {
+          /* Multi-line comment
+             inside interface */
+          type number = u32;
+        }
+      `);
+    });
+
+    test("end of line comments", () => {
+      matchTest(`
+        interface test { // End of line comment
+          type number = u32;
+        }
+      `);
+    });
+
+    test("comments between tokens", () => {
+      matchTest(`
+        interface test {
+          type // Comment between keywords
+          number = u32;
+        }
+      `);
+    });
+
+    test("inline comments", () => {
+      matchTest(`
+        interface test {
+          type number = u32; /* Inline comment */ type string = string;
+        }
+      `);
+    });
+
+    test("rejects nested comments", () => {
+      failTest(`
+        /* outer comment
+          /* nested comment */
+        outer comment */
+        interface test {}
+      `);
+    });
+
+    test("rejects unclosed multi-line comments", () => {
+      failTest(`
+        /* unclosed comment
+        interface test {}
+      `);
+    });
+
+    test("rejects unclosed single-line comment without newline", () => {
+      failTest(`
+        // unclosed single line comment without newline`);
+    });
+
+    test("multiple comments in sequence", () => {
+      matchTest(`
+        // First comment
+        /* Second comment */
+        // Third comment
+        interface test {
+          type number = u32;
+        }
+      `);
+    });
+  });
 });
