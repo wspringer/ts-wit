@@ -100,10 +100,18 @@ describe("Wit Grammar", () => {
 
   test("gated definitions", () => {
     matchTest(`
-      @unstable(feature = beta)
-      @since(version = 1.2.3)
       interface gated {
+        @unstable(feature = beta)
         type test = string;
+
+        @since(version = 1.2.3)
+        record point {
+          x: s32,
+          y: s32
+        }
+
+        @deprecated(version = 2.0.0)
+        old-api: func() -> string;
       }
     `);
   });
@@ -112,9 +120,12 @@ describe("Wit Grammar", () => {
     matchTest(`
       use other:pkg/name@1.0.0 as other;
       use local-pkg;
-      use utils:core/string@2.0.0.{
-        format,
-        concat as string-concat
+
+      interface string-utils {
+        use utils:core/string@2.0.0.{
+          format,
+          concat as string-concat
+        }
       }
     `);
   });

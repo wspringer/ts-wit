@@ -1,4 +1,4 @@
-import * as ohm from 'ohm-js';
+import * as ohm from "ohm-js";
 
 export const grammar = ohm.grammar(String.raw`
   Wit {
@@ -24,7 +24,7 @@ export const grammar = ohm.grammar(String.raw`
 
   ExportItemUsePath = "export" UsePath ";"
 
-  ImportItem = ExportItemExternType | ExportItemUsePath
+  ImportItem = ImportItemExternType | ImportItemUsePath
 
   ImportItemExternType = "import" ident ":" ExternType
 
@@ -43,9 +43,7 @@ export const grammar = ohm.grammar(String.raw`
   UseNamesList =
   	UseNamesItem ("," UseNamesItem)*
 
-  UseNamesItem =
-  	  ident                -- simple
-    | ident "as" ident     -- aliased
+  UseNamesItem = ident ("as" ident)?
 
   ExternType =
 	  ExternTypeFunc
@@ -68,7 +66,7 @@ export const grammar = ohm.grammar(String.raw`
 
   InterfaceItems = Gate InterfaceDefinition
 
-  InterfaceDefinition = TypedefItem
+  InterfaceDefinition = TypedefItem | UseItem | FuncItem
 
   TypedefItem = TypeItem | RecordItem | EnumItem | VariantItem | FlagsItems | FuncItem
 
@@ -170,5 +168,4 @@ export const grammar = ohm.grammar(String.raw`
     = (lower+) ("-" lower*)*
 
 }
-  `
-)
+  `);
