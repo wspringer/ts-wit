@@ -24,7 +24,7 @@ describe("Wit Grammar", () => {
     matchTest(`
       interface logger {
         log: func(message: string);
-        debug: func(level: u32, message: string) -> boolean;
+        debug: func(level: u32, message: string) -> bool;
       }
     `);
   });
