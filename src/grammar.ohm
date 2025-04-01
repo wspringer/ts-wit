@@ -8,28 +8,40 @@ Wit {
 
   NestedPackageDefinition = PackageDecl "{" PackageItem* "}"
 
-  PackageItem = ToplevelUseItem | InterfaceItem | WorldItem
+  PackageItem
+    = ToplevelUseItem
+    | InterfaceItem
+    | WorldItem
 
   WorldItem = Gate "world" ident "{" WorldItems* "}"
 
   WorldItems = Gate WorldDefinition
 
-  WorldDefinition = ExportItem | ImportItem | UseItem | TypedefItem | IncludeItem
+  WorldDefinition
+    = ExportItem
+    | ImportItem
+    | UseItem
+    | TypedefItem
+    | IncludeItem
 
-  ExportItem = ExportItemExternType | ExportItemUsePath
+  ExportItem
+    = ExportItemExternType
+    | ExportItemUsePath
 
   ExportItemExternType = "export" ident ":" ExternType
 
   ExportItemUsePath = "export" UsePath ";"
 
-  ImportItem = ImportItemExternType | ImportItemUsePath
+  ImportItem
+    = ImportItemExternType
+    | ImportItemUsePath
 
   ImportItemExternType = "import" ident ":" ExternType
 
   ImportItemUsePath = "import" UsePath ";"
 
-  IncludeItem =
-  	  "include" UsePath ";"                                 -- simple
+  IncludeItem
+    = "include" UsePath ";"                                 -- simple
     | "include" UsePath "with" "{" IncludeNamesList "}"     -- aliased
 
   IncludeNamesList = IncludeNamesItem ("," IncludeNamesItem)*
@@ -43,8 +55,8 @@ Wit {
 
   UseNamesItem = ident ("as" ident)?
 
-  ExternType =
-	  ExternTypeFunc
+  ExternType
+    = ExternTypeFunc
     | ExternTypeInterface
 
   ExternTypeFunc = FuncType ";"
@@ -53,7 +65,9 @@ Wit {
 
   ToplevelUseItem = "use" UsePath ("as" ident)? ";"
 
-  UsePath = QualifiedUsePath | BareUsePath
+  UsePath
+    = QualifiedUsePath
+    | BareUsePath
 
   BareUsePath = ident
 
@@ -64,15 +78,26 @@ Wit {
 
   InterfaceItems = Gate InterfaceDefinition
 
-  InterfaceDefinition = TypedefItem | UseItem | FuncItem
+  InterfaceDefinition
+    = TypedefItem
+    | UseItem
+    | FuncItem
 
-  TypedefItem = TypeItem | RecordItem | EnumItem | VariantItem | FlagsItems | FuncItem
+  TypedefItem
+    = TypeItem
+    | RecordItem
+    | EnumItem
+    | VariantItem
+    | FlagsItems
+    | FuncItem
 
   Gate
     = GateItem*
 
-  GateItem =
-  	UnstableGate | SinceGate| DeprecatedGate
+  GateItem
+    = UnstableGate
+    | SinceGate
+    | DeprecatedGate
 
   UnstableGate = "@unstable" "(" FeatureField ")"
 
@@ -122,7 +147,12 @@ Wit {
     = ident ":" TypeRef
 
   ResourceItem
-  	= "resource" ident "{" "}"
+  	= "resource" ident "{" ResourceMethod* "}"
+
+  ResourceMethod
+    = FuncItem -- method
+    | ident ":" "static" FuncType ";" -- static
+    | "constructor" ParamList ";" -- constructor
 
   FuncItem = ident ":" FuncType ";"
 
@@ -137,7 +167,11 @@ Wit {
   ResultList = "->" TypeRef
 
   TypeRef
-  	= SimpleType | ResultType | TupleType | OptionType | ListType
+  	= SimpleType
+    | ResultType
+    | TupleType
+    | OptionType
+    | ListType
 
   ResultType = "result<" TypeRef ("," TypeRef)? ">"
 
@@ -148,12 +182,12 @@ Wit {
   ListType = "list<" TypeRef ">"
 
   SimpleType
-  	= | "s8" | "s16" | "s32" | "s64"
-      | "u8" | "u16" | "u32" | "u64"
-      | "f32" | "f64"
-      | "bool"
-      | "string"
-      | "char"
+  	= "s8" | "s16" | "s32" | "s64"
+    | "u8" | "u16" | "u32" | "u64"
+    | "f32" | "f64"
+    | "bool"
+    | "string"
+    | "char"
 
   packageIdentifier
   	= (ident ":")+ package ("@" version)?
