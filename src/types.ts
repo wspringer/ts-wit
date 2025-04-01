@@ -45,8 +45,7 @@ export type TypeRef =
   | TupleType
   | OptionType
   | ListType
-  | RefType
-  | FunctionType;
+  | RefType;
 
 export interface SimpleType {
   kind: "simple";
@@ -77,15 +76,6 @@ export interface ListType {
 export interface RefType {
   kind: "ref";
   name: string; // The fully qualified name of the referenced type (e.g., "test.point")
-}
-
-export interface FunctionType {
-  kind: "function";
-  params: {
-    name: string;
-    type: TypeRef;
-  }[];
-  result?: TypeRef;
 }
 
 export type WITType =
