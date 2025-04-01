@@ -76,7 +76,8 @@ export interface WitActionDict<T> extends BaseActionDict<T> {
   NamedType?: (this: NonterminalNode, arg0: NonterminalNode, arg1: TerminalNode, arg2: NonterminalNode) => T;
   ResultList?: (this: NonterminalNode, arg0: TerminalNode, arg1: NonterminalNode) => T;
   TypeRef?: (this: NonterminalNode, arg0: NonterminalNode) => T;
-  ResultType?: (this: NonterminalNode, arg0: TerminalNode, arg1: NonterminalNode, arg2: IterationNode, arg3: IterationNode, arg4: TerminalNode) => T;
+  RefType?: (this: NonterminalNode, arg0: NonterminalNode) => T;
+  ResultType?: (this: NonterminalNode, arg0: TerminalNode, arg1: TerminalNode, arg2: NonterminalNode, arg3: IterationNode, arg4: IterationNode, arg5: TerminalNode) => T;
   TupleType?: (this: NonterminalNode, arg0: TerminalNode, arg1: NonterminalNode, arg2: IterationNode, arg3: IterationNode, arg4: TerminalNode) => T;
   OptionType?: (this: NonterminalNode, arg0: TerminalNode, arg1: NonterminalNode, arg2: TerminalNode) => T;
   ListType?: (this: NonterminalNode, arg0: TerminalNode, arg1: NonterminalNode, arg2: TerminalNode) => T;

@@ -172,8 +172,11 @@ Wit {
     | TupleType
     | OptionType
     | ListType
+    | RefType
 
-  ResultType = "result<" TypeRef ("," TypeRef)? ">"
+  RefType = ident
+
+  ResultType = "result" "<" TypeRef ("," TypeRef)? ">"
 
   TupleType = "tuple<" TypeRef ("," TypeRef)* ">"
 
