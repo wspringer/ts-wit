@@ -156,15 +156,13 @@ Wit {
 
   FuncItem = ident ":" FuncType ";"
 
-  FuncType = "async"? "func" ParamList ResultList?
+  FuncType = "async"? "func" ParamList ("->" TypeRef)?
 
   ParamList = "(" NamedTypeList? ")"
 
   NamedTypeList = NamedType ("," NamedType)*
 
   NamedType = ident ":" TypeRef
-
-  ResultList = "->" TypeRef
 
   TypeRef
   	= SimpleType

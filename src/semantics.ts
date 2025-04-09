@@ -295,7 +295,7 @@ export function createSemantics() {
       return funcItem;
     },
 
-    FuncType(async, func, params, result) {
+    FuncType(async, func, params, arrow, result) {
       const funcType: FuncType = {
         kind: "funcType",
         location: {
@@ -304,28 +304,10 @@ export function createSemantics() {
         },
         async: async.sourceString === "async",
         params: params?.resolve().items || [],
-        result: result?.children[1]?.resolve(),
+        result: result?.children[0]?.resolve()
       };
       return funcType;
     },
-
-    ResultList(arrow, type) {
-      return type.resolve();
-    },
-
-    // NamedTypeList(first, _comma, rest) {
-    //   return {
-    //     kind: "namedTypeList",
-    //     location: {
-    //       start: first.source.startIdx,
-    //       end: rest.source.endIdx || first.source.endIdx,
-    //     },
-    //     items: [
-    //       first.resolve(),
-    //       ...rest.children.map((child) => child.resolve()),
-    //     ],
-    //   };
-    // },
 
     NamedType(name, colon, type) {
       const namedType: NamedType = {

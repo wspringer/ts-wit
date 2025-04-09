@@ -70,11 +70,10 @@ export interface WitActionDict<T> extends BaseActionDict<T> {
   ResourceMethod_constructor?: (this: NonterminalNode, arg0: TerminalNode, arg1: NonterminalNode, arg2: TerminalNode) => T;
   ResourceMethod?: (this: NonterminalNode, arg0: NonterminalNode) => T;
   FuncItem?: (this: NonterminalNode, arg0: NonterminalNode, arg1: TerminalNode, arg2: NonterminalNode, arg3: TerminalNode) => T;
-  FuncType?: (this: NonterminalNode, arg0: IterationNode, arg1: TerminalNode, arg2: NonterminalNode, arg3: IterationNode) => T;
+  FuncType?: (this: NonterminalNode, arg0: IterationNode, arg1: TerminalNode, arg2: NonterminalNode, arg3: IterationNode, arg4: IterationNode) => T;
   ParamList?: (this: NonterminalNode, arg0: TerminalNode, arg1: IterationNode, arg2: TerminalNode) => T;
   NamedTypeList?: (this: NonterminalNode, arg0: NonterminalNode, arg1: IterationNode, arg2: IterationNode) => T;
   NamedType?: (this: NonterminalNode, arg0: NonterminalNode, arg1: TerminalNode, arg2: NonterminalNode) => T;
-  ResultList?: (this: NonterminalNode, arg0: TerminalNode, arg1: NonterminalNode) => T;
   TypeRef?: (this: NonterminalNode, arg0: NonterminalNode) => T;
   RefType?: (this: NonterminalNode, arg0: NonterminalNode) => T;
   ResultType?: (this: NonterminalNode, arg0: TerminalNode, arg1: TerminalNode, arg2: NonterminalNode, arg3: IterationNode, arg4: IterationNode, arg5: TerminalNode) => T;
