@@ -17,6 +17,9 @@ describe("Wit Grammar", () => {
   test("basic package declaration", () => {
     matchTest("package test:example/path@1.0.0;");
     matchTest("package my-pkg:core/utils@2.3.4;");
+    matchTest("package my-PKG:core/utils@2.3.4;");
+    matchTest("package my-PKG3:core/utils@2.3.4;");
+    failTest("package my-Pkg:core/utils@2.3.4;");
     failTest("package invalid@1.0.0;"); // Missing package identifier format
   });
 
