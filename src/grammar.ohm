@@ -120,19 +120,13 @@ Wit {
     = "type" ident "=" TypeRef ";"
 
   VariantItem
-    = "variant" ident "{" VariantCases "}"
-
-  VariantCases
-  	= VariantCase ("," VariantCase)*
+    = "variant" ident "{" NonemptyListOf<VariantCase, ","> ","? "}"
 
   VariantCase
     = ident ("(" TypeRef ")")?
 
   EnumItem
-    = "enum" ident "{" EnumCases "}"
-
-  EnumCases
-  	= EnumCase ("," EnumCase)*
+    = "enum" ident "{" NonemptyListOf<EnumCase, ","> ","? "}"
 
   EnumCase
     = ident

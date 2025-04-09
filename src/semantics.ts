@@ -230,7 +230,7 @@ export function createSemantics() {
       return field;
     },
 
-    EnumItem(enum_, name, lbrace, cases, rbrace) {
+    EnumItem(enum_, name, lbrace, cases, comma, rbrace) {
       const enumItem: EnumItem = {
         kind: "enum",
         location: {
@@ -238,12 +238,12 @@ export function createSemantics() {
           end: rbrace.source.endIdx,
         },
         name: name.sourceString,
-        cases: cases.children.map((child) => child.sourceString),
+        cases: cases.asIteration().children.map((child) => child.sourceString),
       };
       return enumItem;
     },
 
-    VariantItem(variant, name, lbrace, cases, rbrace) {
+    VariantItem(variant, name, lbrace, cases, comma, rbrace) {
       const variantItem: VariantItem = {
         kind: "variant",
         location: {
@@ -251,7 +251,7 @@ export function createSemantics() {
           end: rbrace.source.endIdx,
         },
         name: name.sourceString,
-        cases: cases.children.map((child) => child.resolve()),
+        cases: cases.asIteration().children.map((child) => child.resolve()),
       };
       return variantItem;
     },
@@ -264,7 +264,7 @@ export function createSemantics() {
           end: rparen ? rparen.source.endIdx : name.source.endIdx,
         },
         name: name.sourceString,
-        type: type ? type.resolve() : undefined,
+        type: type?.children[0]?.resolve(),
       };
       return variantCase;
     },
@@ -304,7 +304,7 @@ export function createSemantics() {
         },
         async: async.sourceString === "async",
         params: params?.resolve().items || [],
-        result: result?.children[0]?.resolve()
+        result: result?.children[0]?.resolve(),
       };
       return funcType;
     },

@@ -7,6 +7,8 @@ import {
   TypeRef,
   TypedefItem,
   TypeItem,
+  EnumItem,
+  VariantItem,
 } from "./types";
 
 function isTypedefItem(item: InterfaceItemElement): item is TypedefItem {
@@ -62,6 +64,7 @@ describe("parseWit", () => {
     expect(ast.package?.name).toBe("my-package:fii");
     expect(ast.items).toHaveLength(1);
 
+    expect(ast.items[0].kind).toBe("interface");
     const interfaceItem = ast.items[0] as InterfaceItem;
     expect(interfaceItem.kind).toBe("interface");
     expect(interfaceItem.name).toBe("greet");
@@ -100,6 +103,83 @@ describe("parseWit", () => {
           expect(resultType.type.name).toBe("string");
         }
       }
+    }
+  });
+
+  it("should parse an interface with an enum definition", () => {
+    const input = `
+      package my-package:fii;
+
+      interface colors {
+        enum color { red, green, blue }
+      }
+    `;
+
+    const ast = parseWit(input);
+
+    expect(ast.kind).toBe("file");
+    expect(ast.package?.name).toBe("my-package:fii");
+    expect(ast.items).toHaveLength(1);
+
+    expect(ast.items[0].kind).toBe("interface");
+    const interfaceItem = ast.items[0] as InterfaceItem;
+    expect(interfaceItem.kind).toBe("interface");
+    expect(interfaceItem.name).toBe("colors");
+    expect(interfaceItem.items).toHaveLength(1);
+
+    const typeItem = interfaceItem.items[0];
+    expect(typeItem.kind).toBe("typedef");
+    if (isTypedefItem(typeItem)) {
+      expect(typeItem.item.kind).toBe("enum");
+      const enumItem = typeItem.item as EnumItem;
+      expect(enumItem.name).toBe("color");
+      expect(enumItem.cases).toEqual(["red", "green", "blue"]);
+    }
+  });
+
+  it("should parse an interface with a variant definition", () => {
+    const input = `
+      interface result {
+        variant result {
+          ok(string),
+          error
+        }
+      }
+    `;
+
+    const ast = parseWit(input);
+
+    expect(ast.kind).toBe("file");
+    expect(ast.items).toHaveLength(1);
+
+    expect(ast.items[0].kind).toBe("interface");
+    const interfaceItem = ast.items[0] as InterfaceItem;
+    expect(interfaceItem.kind).toBe("interface");
+    expect(interfaceItem.name).toBe("result");
+    expect(interfaceItem.items).toHaveLength(1);
+
+    const typeItem = interfaceItem.items[0];
+    expect(typeItem.kind).toBe("typedef");
+    if (isTypedefItem(typeItem)) {
+      expect(typeItem.item.kind).toBe("variant");
+      const variantItem = typeItem.item as VariantItem;
+      expect(variantItem.name).toBe("result");
+      expect(variantItem.cases).toHaveLength(2);
+
+      const okCase = variantItem.cases[0];
+      expect(okCase.name).toBe("ok");
+      expect(okCase.type).toBeDefined();
+      if (okCase.type) {
+        expect(okCase.type.kind).toBe("typeRef");
+        expect(isSimpleTypeRef(okCase.type)).toBe(true);
+        if (isSimpleTypeRef(okCase.type)) {
+          expect(okCase.type.type.name).toBe("string");
+        }
+      }
+
+      const errorCase = variantItem.cases[1];
+      expect(errorCase.name).toBe("error");
+      expect(errorCase.type).toBeUndefined();
     }
   });
 });
