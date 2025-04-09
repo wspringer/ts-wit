@@ -132,10 +132,7 @@ Wit {
     = ident
 
   RecordItem
-    = "record" ident "{" RecordFields "}"
-
-  RecordFields
-  	= RecordField ("," RecordField)*
+    = "record" ident "{" NonemptyListOf<RecordField, ","> ","? "}"
 
   RecordField
     = ident ":" TypeRef

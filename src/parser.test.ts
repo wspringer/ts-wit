@@ -9,6 +9,7 @@ import {
   TypeItem,
   EnumItem,
   VariantItem,
+  RecordItem,
 } from "./types";
 
 function isTypedefItem(item: InterfaceItemElement): item is TypedefItem {
@@ -180,6 +181,53 @@ describe("parseWit", () => {
       const errorCase = variantItem.cases[1];
       expect(errorCase.name).toBe("error");
       expect(errorCase.type).toBeUndefined();
+    }
+  });
+
+  it("should parse an interface with a record definition", () => {
+    const input = `
+      interface point {
+        record point {
+          x: f32,
+          y: f32
+        }
+      }
+    `;
+
+    const ast = parseWit(input);
+
+    expect(ast.kind).toBe("file");
+    expect(ast.items).toHaveLength(1);
+
+    expect(ast.items[0].kind).toBe("interface");
+    const interfaceItem = ast.items[0] as InterfaceItem;
+    expect(interfaceItem.kind).toBe("interface");
+    expect(interfaceItem.name).toBe("point");
+    expect(interfaceItem.items).toHaveLength(1);
+
+    const typeItem = interfaceItem.items[0];
+    expect(typeItem.kind).toBe("typedef");
+    if (isTypedefItem(typeItem)) {
+      expect(typeItem.item.kind).toBe("record");
+      const recordItem = typeItem.item as RecordItem;
+      expect(recordItem.name).toBe("point");
+      expect(recordItem.fields).toHaveLength(2);
+
+      const xField = recordItem.fields[0];
+      expect(xField.name).toBe("x");
+      expect(xField.type.kind).toBe("typeRef");
+      expect(isSimpleTypeRef(xField.type)).toBe(true);
+      if (isSimpleTypeRef(xField.type)) {
+        expect(xField.type.type.name).toBe("f32");
+      }
+
+      const yField = recordItem.fields[1];
+      expect(yField.name).toBe("y");
+      expect(yField.type.kind).toBe("typeRef");
+      expect(isSimpleTypeRef(yField.type)).toBe(true);
+      if (isSimpleTypeRef(yField.type)) {
+        expect(yField.type.type.name).toBe("f32");
+      }
     }
   });
 });

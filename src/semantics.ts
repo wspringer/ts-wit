@@ -187,7 +187,7 @@ export function createSemantics() {
       return typeItem;
     },
 
-    RecordItem(record, name, lbrace, fields, rbrace) {
+    RecordItem(record, name, lbrace, fields, comma, rbrace) {
       const recordItem: RecordItem = {
         kind: "record",
         location: {
@@ -195,26 +195,9 @@ export function createSemantics() {
           end: rbrace.source.endIdx,
         },
         name: name.sourceString,
-        fields: fields.children.map((child) => child.resolve()),
+        fields: fields.asIteration().children.map((child) => child.resolve()),
       };
       return recordItem;
-    },
-
-    RecordFields(
-      fields: NonterminalNode,
-      _iter1: IterationNode,
-      _iter2: IterationNode
-    ) {
-      return {
-        kind: "recordFields",
-        location: {
-          start: fields.source.startIdx,
-          end: fields.source.endIdx,
-        },
-        fields: fields.children.map((child: NonterminalNode) =>
-          child.resolve()
-        ),
-      };
     },
 
     RecordField(name, colon, type) {
