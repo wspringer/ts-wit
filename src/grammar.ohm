@@ -89,7 +89,7 @@ Wit {
     | EnumItem
     | VariantItem
     | FlagsItems
-    | FuncItem
+    | ResourceItem
 
   Gate
     = GateItem*
@@ -150,9 +150,9 @@ Wit {
   	= "resource" ident "{" ResourceMethod* "}"
 
   ResourceMethod
-    = FuncItem -- method
-    | ident ":" "static" FuncType ";" -- static
-    | "constructor" ParamList ";" -- constructor
+    = ident ":" FuncType ";"                -- method
+    | ident ":" "static" FuncType ";"       -- static
+    | "constructor" ParamList ";"           -- constructor
 
   FuncItem = ident ":" FuncType ";"
 

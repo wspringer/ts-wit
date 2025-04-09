@@ -43,6 +43,11 @@ import {
   UnstableGate,
   SinceGate,
   DeprecatedGate,
+  ResourceItem,
+  ResourceMethod,
+  ResourceMethodItem,
+  ResourceStaticMethod,
+  ResourceConstructor,
 } from "./types";
 
 export function createSemantics() {
@@ -56,7 +61,10 @@ export function createSemantics() {
           start: this.source.startIdx,
           end: this.source.endIdx,
         },
-        package: packageDecl.resolve(),
+        package:
+          packageDecl.children.length > 0
+            ? packageDecl.children[0].resolve()
+            : undefined,
         items: items.children.map((child) => child.resolve()),
       };
       return file;
@@ -69,7 +77,7 @@ export function createSemantics() {
           start: package_.source.startIdx,
           end: name.source.endIdx,
         },
-        name: name.sourceString,
+        name: name.resolve().value,
       };
       return packageDecl;
     },
@@ -149,8 +157,21 @@ export function createSemantics() {
       return definition.resolve();
     },
 
-    TypedefItem(item) {
+    InterfaceDefinition(item) {
       return item.resolve();
+    },
+
+    TypedefItem(item) {
+      const resolvedItem = item.resolve();
+      const typedefItem: TypedefItem = {
+        kind: "typedef",
+        location: {
+          start: this.source.startIdx,
+          end: this.source.endIdx,
+        },
+        item: resolvedItem,
+      };
+      return typedefItem;
     },
 
     TypeItem(type_, name, equals, typeRef, semicolon) {
@@ -278,27 +299,33 @@ export function createSemantics() {
       const funcType: FuncType = {
         kind: "funcType",
         location: {
-          start: async ? async.source.startIdx : func.source.startIdx,
+          start: async.source.startIdx,
           end: result ? result.source.endIdx : params.source.endIdx,
         },
-        async: !!async,
-        params: params.resolve(),
-        result: result ? result.resolve() : undefined,
+        async: async.sourceString === "async",
+        params: params?.resolve().items || [],
+        result: result?.children[1]?.resolve(),
       };
       return funcType;
     },
 
-    ParamList(lparen, params, rparen) {
-      const paramList = {
-        kind: "paramList",
-        location: {
-          start: lparen.source.startIdx,
-          end: rparen.source.endIdx,
-        },
-        params: params ? params.children.map((child) => child.resolve()) : [],
-      };
-      return paramList;
+    ResultList(arrow, type) {
+      return type.resolve();
     },
+
+    // NamedTypeList(first, _comma, rest) {
+    //   return {
+    //     kind: "namedTypeList",
+    //     location: {
+    //       start: first.source.startIdx,
+    //       end: rest.source.endIdx || first.source.endIdx,
+    //     },
+    //     items: [
+    //       first.resolve(),
+    //       ...rest.children.map((child) => child.resolve()),
+    //     ],
+    //   };
+    // },
 
     NamedType(name, colon, type) {
       const namedType: NamedType = {
@@ -313,12 +340,17 @@ export function createSemantics() {
       return namedType;
     },
 
-    ResultList(arrow, type) {
-      return type.resolve();
-    },
-
     TypeRef(type) {
-      return type.resolve();
+      const resolvedType = type.resolve();
+      const typeRef: TypeRef = {
+        kind: "typeRef",
+        location: {
+          start: this.source.startIdx,
+          end: this.source.endIdx,
+        },
+        type: resolvedType,
+      };
+      return typeRef;
     },
 
     SimpleType(name) {
@@ -346,7 +378,7 @@ export function createSemantics() {
       return resultType;
     },
 
-    TupleType(tuple, langle, first, rest, rangle) {
+    TupleType(tuple, langle, first, comma, rest, rangle) {
       const types = [first.resolve()];
       if (rest) {
         for (let i = 0; i < rest.children.length; i += 2) {
@@ -410,6 +442,102 @@ export function createSemantics() {
         name: name.sourceString,
       };
       return refType;
+    },
+
+    packageIdentifier(idents, colons, package_, at, version) {
+      const identsStr = idents.children
+        .map((child, i) => child.sourceString + colons.children[i].sourceString)
+        .join("");
+      const packageStr = package_.sourceString;
+      const versionStr = version.sourceString
+        ? at.sourceString + version.sourceString
+        : "";
+      return {
+        kind: "packageIdentifier",
+        location: {
+          start: this.source.startIdx,
+          end: this.source.endIdx,
+        },
+        value: identsStr + packageStr + versionStr,
+      };
+    },
+
+    ResourceItem(resource, name, lbrace, methods, rbrace) {
+      const resourceItem: ResourceItem = {
+        kind: "resource",
+        location: {
+          start: resource.source.startIdx,
+          end: rbrace.source.endIdx,
+        },
+        name: name.sourceString,
+        methods: methods.children.map((child) => child.resolve()),
+      };
+      return resourceItem;
+    },
+
+    ResourceMethod(method) {
+      return method.resolve();
+    },
+
+    ResourceMethod_method(name, colon, funcType, semicolon) {
+      const methodItem: ResourceMethodItem = {
+        kind: "resourceMethod",
+        location: {
+          start: name.source.startIdx,
+          end: semicolon.source.endIdx,
+        },
+        name: name.sourceString,
+        type: funcType.resolve(),
+      };
+      return methodItem;
+    },
+
+    ResourceMethod_static(name, colon, static_, funcType, semicolon) {
+      const staticMethod: ResourceStaticMethod = {
+        kind: "resourceStaticMethod",
+        location: {
+          start: name.source.startIdx,
+          end: semicolon.source.endIdx,
+        },
+        name: name.sourceString,
+        type: funcType.resolve(),
+      };
+      return staticMethod;
+    },
+
+    ResourceMethod_constructor(constructor_, params, semicolon) {
+      const constructor: ResourceConstructor = {
+        kind: "resourceConstructor",
+        location: {
+          start: constructor_.source.startIdx,
+          end: semicolon.source.endIdx,
+        },
+        params:
+          params.children[1].children.length > 0
+            ? params.children[1].children[0].resolve().items
+            : [],
+      };
+      return constructor;
+    },
+
+    ParamList(lparen, params, rparen) {
+      const result = params.children[0].resolve();
+      return result;
+    },
+
+    NamedTypeList(first, _comma, rest) {
+      const result = {
+        kind: "namedTypeList",
+        location: {
+          start: first.source.startIdx,
+          end: rest?.source.endIdx || first.source.endIdx,
+        },
+        items: [
+          first.resolve(),
+          ...rest.children.map((child) => child.resolve()),
+        ],
+      };
+      return result;
     },
   });
 

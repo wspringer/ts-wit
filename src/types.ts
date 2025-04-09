@@ -78,7 +78,13 @@ export type InterfaceItemElement = TypedefItem | UseItem | FuncItem;
 // Type definitions
 export interface TypedefItem extends Node {
   kind: "typedef";
-  item: TypeItem | RecordItem | EnumItem | VariantItem | FlagsItem | FuncItem;
+  item:
+    | TypeItem
+    | RecordItem
+    | EnumItem
+    | VariantItem
+    | FlagsItem
+    | ResourceItem;
   gate?: Gate;
 }
 
@@ -134,7 +140,7 @@ export interface FuncItem extends Node {
 export interface FuncType extends Node {
   kind: "funcType";
   async: boolean;
-  params: ParamList;
+  params: NamedType[];
   result?: TypeRef;
 }
 
@@ -147,6 +153,11 @@ export interface NamedType extends Node {
   kind: "namedType";
   name: string;
   type: TypeRef;
+}
+
+export interface NamedTypeList extends Node {
+  kind: "namedTypeList";
+  items: NamedType[];
 }
 
 // Type references
@@ -288,4 +299,32 @@ export interface SinceGate extends Node {
 export interface DeprecatedGate extends Node {
   kind: "deprecatedGate";
   version: string;
+}
+
+export interface ResourceItem extends Node {
+  kind: "resource";
+  name: string;
+  methods: ResourceMethod[];
+}
+
+export type ResourceMethod =
+  | ResourceMethodItem
+  | ResourceStaticMethod
+  | ResourceConstructor;
+
+export interface ResourceMethodItem extends Node {
+  kind: "resourceMethod";
+  name: string;
+  type: FuncType;
+}
+
+export interface ResourceStaticMethod extends Node {
+  kind: "resourceStaticMethod";
+  name: string;
+  type: FuncType;
+}
+
+export interface ResourceConstructor extends Node {
+  kind: "resourceConstructor";
+  params: NamedType[];
 }
