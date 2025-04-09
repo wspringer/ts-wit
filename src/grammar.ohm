@@ -202,7 +202,20 @@ Wit {
   	= ident ("/" ident)*
 
   ident
-    = (lower+) ("-" lower*)*
+    = label
+
+  label
+    = fragment ("-" fragment)*
+
+  fragment
+    = word
+    | acronym
+
+  word
+    = lower (lower | digit)*
+
+  acronym
+    = upper (upper | digit)*
 
   space := whitespace | lineComment | multiLineComment
   whitespace = " " | "\t" | "\n" | "\r"  // explicit whitespace chars

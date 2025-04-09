@@ -85,7 +85,11 @@ export interface WitActionDict<T> extends BaseActionDict<T> {
   packageIdentifier?: (this: NonterminalNode, arg0: IterationNode, arg1: IterationNode, arg2: NonterminalNode, arg3: IterationNode, arg4: IterationNode) => T;
   version?: (this: NonterminalNode, arg0: IterationNode, arg1: TerminalNode, arg2: IterationNode, arg3: TerminalNode, arg4: IterationNode) => T;
   package?: (this: NonterminalNode, arg0: NonterminalNode, arg1: IterationNode, arg2: IterationNode) => T;
-  ident?: (this: NonterminalNode, arg0: IterationNode, arg1: IterationNode, arg2: IterationNode) => T;
+  ident?: (this: NonterminalNode, arg0: NonterminalNode) => T;
+  label?: (this: NonterminalNode, arg0: NonterminalNode, arg1: IterationNode, arg2: IterationNode) => T;
+  fragment?: (this: NonterminalNode, arg0: NonterminalNode) => T;
+  word?: (this: NonterminalNode, arg0: NonterminalNode, arg1: IterationNode) => T;
+  acronym?: (this: NonterminalNode, arg0: NonterminalNode, arg1: IterationNode) => T;
   space?: (this: NonterminalNode, arg0: NonterminalNode) => T;
   whitespace?: (this: NonterminalNode, arg0: TerminalNode) => T;
   lineComment?: (this: NonterminalNode, arg0: TerminalNode, arg1: IterationNode, arg2: TerminalNode) => T;
