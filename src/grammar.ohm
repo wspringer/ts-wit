@@ -178,11 +178,11 @@ Wit {
 
   ResultType = "result" "<" TypeRef ("," TypeRef)? ">"
 
-  TupleType = "tuple<" TypeRef ("," TypeRef)* ">"
+  TupleType = "tuple" "<" TypeRef ("," TypeRef)* ">"
 
-  OptionType = "option<" TypeRef ">"
+  OptionType = "option" "<" TypeRef ">"
 
-  ListType = "list<" TypeRef ">"
+  ListType = "list" "<" TypeRef ">"
 
   SimpleType
   	= "s8" | "s16" | "s32" | "s64"

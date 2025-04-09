@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "regenerate": "npx ohm generateBundles --withTypes src/grammar.ohm",
-    "test": "jest"
+    "test": "jest",
+    "build": "tsc"
   },
   "keywords": [],
   "author": "Wilfred Springer <wilfred@eastpole.nl>",
