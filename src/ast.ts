@@ -48,10 +48,10 @@ import {
   ResourceStaticMethod,
   ResourceConstructor,
 } from "./ast.types";
+import { WitSemantics } from "./grammar.ohm-bundle";
 
-export function createSemantics() {
-  const semantics = grammar.createSemantics();
-
+export function defineAST(semantics: WitSemantics) {
+  
   semantics.addOperation<Node>("resolve", {
     File(packageDecl, semicolon, items) {
       const file: File = {
@@ -563,6 +563,4 @@ export function createSemantics() {
       return item.resolve();
     },
   });
-
-  return semantics;
 }

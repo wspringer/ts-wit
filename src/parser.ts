@@ -1,5 +1,5 @@
 import { grammar } from "./grammar";
-import { createSemantics } from "./ast";
+import { defineAST } from "./ast";
 import { File } from "./ast.types";
 
 /**
@@ -9,8 +9,10 @@ import { File } from "./ast.types";
  * @throws Error if parsing fails
  */
 export function parseWit(input: string): File {
-  // Create a new semantics instance
-  const semantics = createSemantics();
+
+  const semantics = grammar.createSemantics();
+
+  defineAST(semantics);
 
   // Parse the input
   const match = grammar.match(input);

@@ -1,4 +1,5 @@
 import { parseWit } from "./parser";
+
 import {
   InterfaceItem,
   FuncItem,
