@@ -17,6 +17,7 @@ import {
   ExternType,
   FuncType,
 } from "./ast.types";
+import { simplify } from "./ast";
 
 function isTypedefItem(item: InterfaceItemElement): item is TypedefItem {
   return item.kind === "typedef";
@@ -317,6 +318,7 @@ world worker {
 }`;
 
     const ast = parseWit(input);
+    simplify(ast); //?
 
     expect(ast.kind).toBe("file");
     expect(ast.items).toHaveLength(1);

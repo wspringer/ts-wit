@@ -7,6 +7,10 @@ export interface Node {
   };
 }
 
+export function isNode(node: unknown): node is Node {
+  return typeof node === "object" && node !== null && node !== undefined && "kind" in node && "location" in node;
+}
+
 // Top level structures
 export interface File extends Node {
   kind: "file";

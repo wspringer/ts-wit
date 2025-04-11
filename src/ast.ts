@@ -50,6 +50,7 @@ import {
   VersionField,
   FeatureField,
   ExternTypeExport,
+  isNode,
 } from "./ast.types";
 import { WitSemantics } from "./grammar.ohm-bundle";
 
@@ -280,7 +281,7 @@ export function defineAST(semantics: WitSemantics) {
     },
 
     FuncType(async, func, params, arrow, result) {
-      result.children[0] //?
+      result.children[0]; //?
       const funcType: FuncType = {
         kind: "funcType",
         location: {
@@ -340,7 +341,7 @@ export function defineAST(semantics: WitSemantics) {
           end: rangle.source.endIdx,
         },
         ok: ok.resolve(),
-        error: error.children[0]?.resolve()
+        error: error.children[0]?.resolve(),
       };
       return resultType;
     },
@@ -712,4 +713,28 @@ export function defineAST(semantics: WitSemantics) {
       return featureField;
     },
   });
+}
+
+type IsArray<T> = T extends any[] ? true : false;
+type ElementType<T> = T extends (infer U)[] ? U : never;
+type SimplifyNode<T> = T extends Node
+  ? SimplifyNestedNodes<Omit<T, "location">>
+  : T;
+type SimplifyNestedNodes<T> = T extends Node
+  ? { [K in keyof T]: T[K] extends Node ? SimplifyNode<T[K]> : T[K] }
+  : IsArray<T> extends true
+  ? SimplifyNode<ElementType<T>>[]
+  : T;
+
+export function simplify<T extends Node>(node: T): SimplifyNode<T> {
+  const { location, ...rest } = node;
+  const entries = Object.entries(rest).map(([key, value]) => {
+    if (isNode(value)) {
+      return [key, simplify(value)];
+    }
+    if (Array.isArray(value)) {
+      return [key, value.map(simplify)];
+    } else return [key, value];
+  });
+  return Object.fromEntries(entries) as SimplifyNode<T>;
 }
