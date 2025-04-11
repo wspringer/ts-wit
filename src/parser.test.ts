@@ -13,6 +13,9 @@ import {
   RecordItem,
   IncludeItem,
   WorldItem,
+  ExternFuncType,
+  ExternType,
+  FuncType,
 } from "./ast.types";
 
 function isTypedefItem(item: InterfaceItemElement): item is TypedefItem {
@@ -26,6 +29,10 @@ function isFuncItem(item: InterfaceItemElement): item is FuncItem {
 function isTypeItem(item: TypedefItem["item"]): item is TypeItem {
   return item.kind === "type";
 }
+
+// function isExternFuncType(item: ExternType): item is ExternFuncType {
+//   return item.kind === "funcType";
+// }
 
 function isSimpleTypeRef(
   type: TypeRef
@@ -327,7 +334,11 @@ world worker {
       expect(exportItem.item.kind).toBe("externTypeExport");
       if (exportItem.item.kind === "externTypeExport") {
         expect(exportItem.item.name).toBe("handle");
-        expect(exportItem.item.type.kind).toBe("funcType");
+        expect(exportItem.item.type.kind).toBe("externFunc");
+        if (exportItem.item.type.kind === "externFunc") {
+          expect(exportItem.item.type.type.kind).toBe("funcType");
+          expect(exportItem.item.type.type.params.length).toBe(1);
+        }
       }
     }
   });

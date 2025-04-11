@@ -595,8 +595,15 @@ export function defineAST(semantics: WitSemantics) {
       return type.resolve();
     },
 
-    ExternTypeFunc(type, _) {
-      return type.resolve();
+    ExternTypeFunc(type, semicolon) {
+      return {
+        kind: "externFunc",
+        location: {
+          start: type.source.startIdx,
+          end: semicolon.source.endIdx,
+        },
+        type: type.resolve(),
+      } satisfies ExternFuncType;
     },
 
     ExternTypeInterface(interface_, lbrace, items, rbrace) {
