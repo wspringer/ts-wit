@@ -296,6 +296,16 @@ export interface DeprecatedGate extends Node {
   version: string;
 }
 
+export interface VersionField extends Node {
+  kind: "versionField";
+  version: string;
+}
+
+export interface FeatureField extends Node {
+  kind: "featureField";
+  feature: string;
+}
+
 export interface ResourceItem extends Node {
   kind: "resource";
   name: string;

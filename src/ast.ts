@@ -47,11 +47,13 @@ import {
   ResourceMethodItem,
   ResourceStaticMethod,
   ResourceConstructor,
+  VersionField,
+  FeatureField,
+  ExternTypeExport,
 } from "./ast.types";
 import { WitSemantics } from "./grammar.ohm-bundle";
 
 export function defineAST(semantics: WitSemantics) {
-
   semantics.addOperation<Node>("resolve", {
     File(packageDecl, semicolon, items) {
       const file: File = {
@@ -278,6 +280,7 @@ export function defineAST(semantics: WitSemantics) {
     },
 
     FuncType(async, func, params, arrow, result) {
+      result.children[0] //?
       const funcType: FuncType = {
         kind: "funcType",
         location: {
@@ -337,7 +340,7 @@ export function defineAST(semantics: WitSemantics) {
           end: rangle.source.endIdx,
         },
         ok: ok.resolve(),
-        error: error ? error.resolve() : undefined,
+        error: error.children[0]?.resolve()
       };
       return resultType;
     },
@@ -543,7 +546,6 @@ export function defineAST(semantics: WitSemantics) {
     },
 
     WorldItem(gate, world, name, lbrace, items, rbrace) {
-      gate.children[0] //?
       const worldItem: WorldItem = {
         kind: "world",
         location: {
@@ -563,6 +565,68 @@ export function defineAST(semantics: WitSemantics) {
 
     WorldDefinition(item) {
       return item.resolve();
+    },
+
+    ExportItem(item) {
+      return item.resolve();
+    },
+
+    ExportItemExternType(export_, name, colon, type) {
+      const exportItem: ExportItem = {
+        kind: "export",
+        location: {
+          start: export_.source.startIdx,
+          end: type.source.endIdx,
+        },
+        item: {
+          kind: "externTypeExport",
+          location: {
+            start: name.source.startIdx,
+            end: type.source.endIdx,
+          },
+          name: name.sourceString,
+          type: type.resolve(),
+        },
+      };
+      return exportItem;
+    },
+
+    ExternType(type) {
+      return type.resolve();
+    },
+
+    ExternTypeFunc(type, _) {
+      return type.resolve();
+    },
+
+    ExternTypeInterface(interface_, lbrace, items, rbrace) {
+      return {
+        kind: "externTypeInterface",
+        location: {
+          start: interface_.source.startIdx,
+          end: rbrace.source.endIdx,
+        },
+        items: items.children.map((child) => child.resolve()),
+      };
+    },
+
+    ExportItemUsePath(export_, path, semicolon) {
+      const exportItem: ExportItem = {
+        kind: "export",
+        location: {
+          start: export_.source.startIdx,
+          end: semicolon.source.endIdx,
+        },
+        item: {
+          kind: "usePathExport",
+          location: {
+            start: path.source.startIdx,
+            end: path.source.endIdx,
+          },
+          path: path.resolve(),
+        },
+      };
+      return exportItem;
     },
 
     Gate(items) {
@@ -588,7 +652,7 @@ export function defineAST(semantics: WitSemantics) {
           start: since.source.startIdx,
           end: rparen.source.endIdx,
         },
-        version: version.sourceString,
+        version: version.resolve().version,
       };
       return sinceGate;
     },
@@ -600,9 +664,45 @@ export function defineAST(semantics: WitSemantics) {
           start: deprecated.source.startIdx,
           end: rparen.source.endIdx,
         },
-        version: version.sourceString,
+        version: version.resolve().version,
       };
       return deprecatedGate;
+    },
+
+    VersionField(name, is, version) {
+      const versionField: VersionField = {
+        kind: "versionField",
+        location: {
+          start: name.source.startIdx,
+          end: version.source.endIdx,
+        },
+        version: version.sourceString,
+      };
+      return versionField;
+    },
+
+    UnstableGate(unstable, lparen, feature, rparen) {
+      const unstableGate: UnstableGate = {
+        kind: "unstableGate",
+        location: {
+          start: unstable.source.startIdx,
+          end: rparen.source.endIdx,
+        },
+        feature: feature.resolve().feature,
+      };
+      return unstableGate;
+    },
+
+    FeatureField(name, is, feature) {
+      const featureField: FeatureField = {
+        kind: "featureField",
+        location: {
+          start: name.source.startIdx,
+          end: feature.source.endIdx,
+        },
+        feature: feature.sourceString,
+      };
+      return featureField;
     },
   });
 }

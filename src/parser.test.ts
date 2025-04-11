@@ -254,7 +254,7 @@ describe("parseWit", () => {
     expect(worldItem.gate?.items.length).toBe(1);
     expect(worldItem.gate?.items[0].kind).toBe("sinceGate");
     if (worldItem.gate?.items[0].kind === "sinceGate") {
-      // expect(worldItem.gate?.items[0].version).toBe("1.0.0");
+      expect(worldItem.gate?.items[0].version).toBe("1.0.0");
     }
     expect(worldItem.items).toHaveLength(1);
 
@@ -264,6 +264,70 @@ describe("parseWit", () => {
       expect(includeItem.path.kind).toBe("bareUsePath");
       if (includeItem.path.kind === "bareUsePath") {
         expect(includeItem.path.path).toEqual("other-interface");
+      }
+    }
+  });
+
+  it("should parse a world with an unstable gate", () => {
+    const input = `
+      @unstable(feature=experimental) world my-world {
+        include other-interface;
+      }
+    `;
+
+    const ast = parseWit(input);
+
+    expect(ast.kind).toBe("file");
+    expect(ast.items).toHaveLength(1);
+
+    expect(ast.items[0].kind).toBe("world");
+    const worldItem = ast.items[0] as WorldItem;
+    expect(worldItem.kind).toBe("world");
+    expect(worldItem.name).toBe("my-world");
+    expect(worldItem.gate?.kind).toBe("gate");
+    expect(worldItem.gate?.items.length).toBe(1);
+    expect(worldItem.gate?.items[0].kind).toBe("unstableGate");
+    if (worldItem.gate?.items[0].kind === "unstableGate") {
+      expect(worldItem.gate?.items[0].feature).toBe("experimental");
+    }
+    expect(worldItem.items).toHaveLength(1);
+
+    const includeItem = worldItem.items[0];
+    expect(includeItem.kind).toBe("include");
+    if (includeItem.kind === "include") {
+      expect(includeItem.path.kind).toBe("bareUsePath");
+      if (includeItem.path.kind === "bareUsePath") {
+        expect(includeItem.path.path).toEqual("other-interface");
+      }
+    }
+  });
+
+  it("should parse a world exporting a function", () => {
+    const input = `package fermyon:camunda;
+
+world worker {
+  export handle: func(message: string) -> result<string, string>;
+}`;
+
+    const ast = parseWit(input);
+
+    expect(ast.kind).toBe("file");
+    expect(ast.items).toHaveLength(1);
+
+    expect(ast.items[0].kind).toBe("world");
+    const worldItem = ast.items[0] as WorldItem;
+    expect(worldItem.kind).toBe("world");
+    expect(worldItem.name).toBe("worker");
+    expect(worldItem.gate?.kind).toBe("gate");
+    expect(worldItem.gate?.items.length).toBe(0);
+    expect(worldItem.items.length).toBe(1);
+    const exportItem = worldItem.items[0];
+    expect(exportItem.kind).toBe("export");
+    if (exportItem.kind === "export") {
+      expect(exportItem.item.kind).toBe("externTypeExport");
+      if (exportItem.item.kind === "externTypeExport") {
+        expect(exportItem.item.name).toBe("handle");
+        expect(exportItem.item.type.kind).toBe("funcType");
       }
     }
   });
