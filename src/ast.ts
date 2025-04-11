@@ -47,7 +47,7 @@ import {
   ResourceMethodItem,
   ResourceStaticMethod,
   ResourceConstructor,
-} from "./types";
+} from "./ast.types";
 
 export function createSemantics() {
   const semantics = grammar.createSemantics();
@@ -562,7 +562,6 @@ export function createSemantics() {
     WorldDefinition(item) {
       return item.resolve();
     },
-
   });
 
   return semantics;

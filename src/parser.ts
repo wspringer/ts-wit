@@ -1,6 +1,6 @@
 import { grammar } from "./grammar";
-import { createSemantics } from "./semantics";
-import { File } from "./types";
+import { createSemantics } from "./ast";
+import { File } from "./ast.types";
 
 /**
  * Parses a WIT (WebAssembly Interface Types) input string and returns the AST.

@@ -12,7 +12,7 @@ import {
   RecordItem,
   IncludeItem,
   WorldItem,
-} from "./types";
+} from "./ast.types";
 
 function isTypedefItem(item: InterfaceItemElement): item is TypedefItem {
   return item.kind === "typedef";
