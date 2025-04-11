@@ -10,6 +10,8 @@ import {
   EnumItem,
   VariantItem,
   RecordItem,
+  IncludeItem,
+  WorldItem,
 } from "./types";
 
 function isTypedefItem(item: InterfaceItemElement): item is TypedefItem {
@@ -227,6 +229,34 @@ describe("parseWit", () => {
       expect(isSimpleTypeRef(yField.type)).toBe(true);
       if (isSimpleTypeRef(yField.type)) {
         expect(yField.type.type.name).toBe("f32");
+      }
+    }
+  });
+
+  it("should parse a world with a simple include statement", () => {
+    const input = `
+      world my-world {
+        include other-interface;
+      }
+    `;
+
+    const ast = parseWit(input);
+
+    expect(ast.kind).toBe("file");
+    expect(ast.items).toHaveLength(1);
+
+    expect(ast.items[0].kind).toBe("world");
+    const worldItem = ast.items[0] as WorldItem;
+    expect(worldItem.kind).toBe("world");
+    expect(worldItem.name).toBe("my-world");
+    expect(worldItem.items).toHaveLength(1);
+
+    const includeItem = worldItem.items[0];
+    expect(includeItem.kind).toBe("include");
+    if (includeItem.kind === "include") {
+      expect(includeItem.path.kind).toBe("bareUsePath");
+      if (includeItem.path.kind === "bareUsePath") {
+        expect(includeItem.path.path).toEqual("other-interface");
       }
     }
   });

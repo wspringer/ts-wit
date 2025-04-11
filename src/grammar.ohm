@@ -41,17 +41,14 @@ Wit {
   ImportItemUsePath = "import" UsePath ";"
 
   IncludeItem
-    = "include" UsePath ";"                                 -- simple
-    | "include" UsePath "with" "{" IncludeNamesList "}"     -- aliased
-
-  IncludeNamesList = IncludeNamesItem ("," IncludeNamesItem)*
+    = "include" UsePath ";"                                               -- simple
+    | "include" UsePath "with" "{" ListOf<IncludeNamesItem, ",">  "}"     -- aliased
 
   IncludeNamesItem = ident "as" ident
 
   UseItem = "use" UsePath "." "{" UseNamesList "}"
 
-  UseNamesList =
-  	UseNamesItem ("," UseNamesItem)*
+  UseNamesList = NonemptyListOf<UseNamesItem, ",">
 
   UseNamesItem = ident ("as" ident)?
 

@@ -263,13 +263,8 @@ export interface UsePathExport extends Node {
 export interface IncludeItem extends Node {
   kind: "include";
   path: UsePath;
-  names?: IncludeNamesList;
+  names?: IncludeNamesItem[];
   gate?: Gate;
-}
-
-export interface IncludeNamesList extends Node {
-  kind: "includeNames";
-  names: IncludeNamesItem[];
 }
 
 export interface IncludeNamesItem extends Node {

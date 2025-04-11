@@ -36,7 +36,6 @@ import {
   ExternFuncType,
   ExternInterfaceType,
   IncludeItem,
-  IncludeNamesList,
   IncludeNamesItem,
   Gate,
   GateItem,
@@ -504,6 +503,66 @@ export function createSemantics() {
       };
       return result;
     },
+
+    IncludeItem_simple(include, path, semicolon) {
+      const includeItem: IncludeItem = {
+        kind: "include",
+        location: {
+          start: include.source.startIdx,
+          end: semicolon.source.endIdx,
+        },
+        path: path.resolve(),
+      };
+      return includeItem;
+    },
+
+    IncludeItem_aliased(include, path, with_, lbrace, names, rbrace) {
+      const includeItem: IncludeItem = {
+        kind: "include",
+        location: {
+          start: include.source.startIdx,
+          end: rbrace.source.endIdx,
+        },
+        path: path.resolve(),
+        names: names.asIteration().children.map((child) => child.resolve()),
+      };
+      return includeItem;
+    },
+
+    IncludeNamesItem(name, as, alias) {
+      const includeName: IncludeNamesItem = {
+        kind: "includeName",
+        location: {
+          start: name.source.startIdx,
+          end: alias.source.endIdx,
+        },
+        name: name.sourceString,
+        alias: alias.sourceString,
+      };
+      return includeName;
+    },
+
+    WorldItem(gate, world, name, lbrace, items, rbrace) {
+      const worldItem: WorldItem = {
+        kind: "world",
+        location: {
+          start: gate.source.startIdx,
+          end: rbrace.source.endIdx,
+        },
+        name: name.sourceString,
+        items: items.children.map((child) => child.resolve()),
+      };
+      return worldItem;
+    },
+
+    WorldItems(gate, item) {
+      return item.resolve();
+    },
+
+    WorldDefinition(item) {
+      return item.resolve();
+    },
+
   });
 
   return semantics;

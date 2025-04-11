@@ -28,10 +28,9 @@ export interface WitActionDict<T> extends BaseActionDict<T> {
   IncludeItem_simple?: (this: NonterminalNode, arg0: TerminalNode, arg1: NonterminalNode, arg2: TerminalNode) => T;
   IncludeItem_aliased?: (this: NonterminalNode, arg0: TerminalNode, arg1: NonterminalNode, arg2: TerminalNode, arg3: TerminalNode, arg4: NonterminalNode, arg5: TerminalNode) => T;
   IncludeItem?: (this: NonterminalNode, arg0: NonterminalNode) => T;
-  IncludeNamesList?: (this: NonterminalNode, arg0: NonterminalNode, arg1: IterationNode, arg2: IterationNode) => T;
   IncludeNamesItem?: (this: NonterminalNode, arg0: NonterminalNode, arg1: TerminalNode, arg2: NonterminalNode) => T;
   UseItem?: (this: NonterminalNode, arg0: TerminalNode, arg1: NonterminalNode, arg2: TerminalNode, arg3: TerminalNode, arg4: NonterminalNode, arg5: TerminalNode) => T;
-  UseNamesList?: (this: NonterminalNode, arg0: NonterminalNode, arg1: IterationNode, arg2: IterationNode) => T;
+  UseNamesList?: (this: NonterminalNode, arg0: NonterminalNode) => T;
   UseNamesItem?: (this: NonterminalNode, arg0: NonterminalNode, arg1: IterationNode, arg2: IterationNode) => T;
   ExternType?: (this: NonterminalNode, arg0: NonterminalNode) => T;
   ExternTypeFunc?: (this: NonterminalNode, arg0: NonterminalNode, arg1: TerminalNode) => T;
