@@ -51,7 +51,7 @@ import {
 import { WitSemantics } from "./grammar.ohm-bundle";
 
 export function defineAST(semantics: WitSemantics) {
-  
+
   semantics.addOperation<Node>("resolve", {
     File(packageDecl, semicolon, items) {
       const file: File = {
@@ -543,12 +543,14 @@ export function defineAST(semantics: WitSemantics) {
     },
 
     WorldItem(gate, world, name, lbrace, items, rbrace) {
+      gate.children[0] //?
       const worldItem: WorldItem = {
         kind: "world",
         location: {
           start: gate.source.startIdx,
           end: rbrace.source.endIdx,
         },
+        gate: gate.resolve(),
         name: name.sourceString,
         items: items.children.map((child) => child.resolve()),
       };
@@ -561,6 +563,46 @@ export function defineAST(semantics: WitSemantics) {
 
     WorldDefinition(item) {
       return item.resolve();
+    },
+
+    Gate(items) {
+      const gate: Gate = {
+        kind: "gate",
+        location: {
+          start: this.source.startIdx,
+          end: this.source.endIdx,
+        },
+        items: items.children.map((child) => child.resolve()),
+      };
+      return gate;
+    },
+
+    GateItem(item) {
+      return item.resolve();
+    },
+
+    SinceGate(since, lparen, version, rparen) {
+      const sinceGate: SinceGate = {
+        kind: "sinceGate",
+        location: {
+          start: since.source.startIdx,
+          end: rparen.source.endIdx,
+        },
+        version: version.sourceString,
+      };
+      return sinceGate;
+    },
+
+    DeprecatedGate(deprecated, lparen, version, rparen) {
+      const deprecatedGate: DeprecatedGate = {
+        kind: "deprecatedGate",
+        location: {
+          start: deprecated.source.startIdx,
+          end: rparen.source.endIdx,
+        },
+        version: version.sourceString,
+      };
+      return deprecatedGate;
     },
   });
 }

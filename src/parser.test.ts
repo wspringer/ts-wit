@@ -236,7 +236,7 @@ describe("parseWit", () => {
 
   it("should parse a world with a simple include statement", () => {
     const input = `
-      world my-world {
+      @since(version=1.0.0) world my-world {
         include other-interface;
       }
     `;
@@ -250,6 +250,12 @@ describe("parseWit", () => {
     const worldItem = ast.items[0] as WorldItem;
     expect(worldItem.kind).toBe("world");
     expect(worldItem.name).toBe("my-world");
+    expect(worldItem.gate?.kind).toBe("gate");
+    expect(worldItem.gate?.items.length).toBe(1);
+    expect(worldItem.gate?.items[0].kind).toBe("sinceGate");
+    if (worldItem.gate?.items[0].kind === "sinceGate") {
+      // expect(worldItem.gate?.items[0].version).toBe("1.0.0");
+    }
     expect(worldItem.items).toHaveLength(1);
 
     const includeItem = worldItem.items[0];
