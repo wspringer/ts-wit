@@ -10,7 +10,7 @@ type MetaOf<M, T extends string> = M extends {
   ? U
   : {};
 
-export type Package<M> = {
+export type Package<M = {}> = {
   packages: NestedPackage<M>[];
 } & InterfaceContainer<M>;
 
@@ -19,7 +19,7 @@ export type RootPackage<M> = Package<M> & {
   packages: NestedPackage<M>[];
 };
 
-export type NestedPackage<M> = Package<M> & {
+export type NestedPackage<M = {}> = Package<M> & {
   name: string;
 };
 

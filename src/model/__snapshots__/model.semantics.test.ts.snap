@@ -1,31 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`model.semantics should parse a flags declaration 1`] = `
-{
-  "interfaces": [
-    {
-      "functions": [],
-      "name": "bar",
-      "typeDefs": [
-        {
-          "fields": [
-            "A",
-            "B",
-            "C",
-          ],
-          "kind": "flags",
-          "name": "foo",
-        },
-      ],
-    },
-  ],
-  "name": undefined,
-  "packages": [],
-  "uses": [],
-  "worlds": [],
-}
-`;
-
 exports[`model.semantics should parse a package declaration 1`] = `
 {
   "interfaces": [],
@@ -314,6 +288,48 @@ exports[`model.semantics should parse an interface with an enum 2`] = `
   ],
   "name": undefined,
   "packages": [],
+  "uses": [],
+  "worlds": [],
+}
+`;
+
+exports[`model.semantics should parse flags 1`] = `
+{
+  "interfaces": [
+    {
+      "functions": [],
+      "name": "bar",
+      "typeDefs": [
+        {
+          "fields": [
+            "A",
+            "B",
+            "C",
+          ],
+          "kind": "flags",
+          "name": "foo",
+        },
+      ],
+    },
+  ],
+  "name": undefined,
+  "packages": [],
+  "uses": [],
+  "worlds": [],
+}
+`;
+
+exports[`model.semantics should parse nested packages 1`] = `
+{
+  "interfaces": [],
+  "name": undefined,
+  "packages": [
+    {
+      "interfaces": [],
+      "name": "foo:bar@0.0.1",
+      "packages": [],
+    },
+  ],
   "uses": [],
   "worlds": [],
 }

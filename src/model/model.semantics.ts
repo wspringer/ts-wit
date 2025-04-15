@@ -6,7 +6,9 @@ import {
   Func,
   InterfaceDef,
   ListType,
+  NestedPackage,
   OptionType,
+  Package,
   Param,
   RecordDef,
   RecordField,
@@ -34,10 +36,14 @@ function defineModel(semantics: WitSemantics) {
       const interfaces: InterfaceDef[] = items
         .filter((item) => item.kind === "interface")
         .map((item) => item.boxed);
+      const packages: NestedPackage[] = items
+        .filter((item) => item.kind === "package")
+        .map((item) => item.boxed);
+
       return {
         name: packageDecl.children[0]?.toModel(),
         uses: [],
-        packages: [],
+        packages,
         interfaces,
         worlds: [],
       };
@@ -253,6 +259,22 @@ function defineModel(semantics: WitSemantics) {
 
     FlagsField(ident): string {
       return ident.sourceString;
+    },
+
+    NestedPackageDefinition(
+      packageDecl,
+      lbrace,
+      packageItems,
+      rbrace
+    ): Item<"package", NestedPackage> {
+      return {
+        kind: "package",
+        boxed: {
+          name: packageDecl.toModel(),
+          packages: [],
+          interfaces: [],
+        },
+      };
     },
 
     _iter(...children) {

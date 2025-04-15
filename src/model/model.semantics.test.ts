@@ -108,12 +108,25 @@ describe("model.semantics", () => {
     expect(parsed).toMatchSnapshot();
   });
 
-  it("should parse a flags declaration", () => {
+  it("should parse flags", () => {
     const input = `interface bar {
       flags foo {
         A, B, C
       }
     }`;
+    expect(() => parseWit(input)).not.toThrow();
+    const parsed = parseWit(input);
+    expect(parsed).toMatchSnapshot();
+  });
+
+  it("should parse nested packages", () => {
+    const input = `
+    package foo:bar@0.0.1 {
+      interface baz {
+        method: func() -> string;
+      }
+    }
+    `;
     expect(() => parseWit(input)).not.toThrow();
     const parsed = parseWit(input);
     expect(parsed).toMatchSnapshot();
