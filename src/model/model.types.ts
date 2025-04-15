@@ -14,20 +14,10 @@ export type Package<M> = {
   packages: NestedPackage<M>[];
 } & InterfaceContainer<M>;
 
-export type QualifiedPackage<M> = {
-  name: string;
-  version: string;
+export type RootPackage<M> = Package<M> & {
+  name?: string;
+  packages: NestedPackage<M>[];
 };
-
-export type AnonymousPackage<M> = {
-  name?: undefined;
-  version?: undefined;
-};
-
-export type RootPackage<M> = Package<M> &
-  (QualifiedPackage<M> | AnonymousPackage<M>) & {
-    packages: NestedPackage<M>[];
-  };
 
 export type NestedPackage<M> = Package<M> & {
   name: string;
@@ -84,7 +74,7 @@ export type InterfaceRef<M> = {
   name: string;
 } & MetaOf<M, "InterfaceRef">;
 
-export type TypeDef<M> = (
+export type TypeDef<M = {}> = (
   | AliasDef<M>
   | EnumDef<M>
   | VariantDef<M>
@@ -93,6 +83,7 @@ export type TypeDef<M> = (
   MetaOf<M, "TypeDef">;
 
 export type TupleType<M> = {
+  kind: "tuple";
   items: Ty<M>[];
 };
 
@@ -161,7 +152,7 @@ export type AliasDef<M> = {
   type: Ty<M>;
 };
 
-export type Ty<M> =
+export type Ty<M = {}> =
   | TypeRef<M>
   | SimpleType<M>
   | OptionType<M>
@@ -202,8 +193,7 @@ export type ResolvedWit = Wit<{
 }>;
 
 export const test: Wit = {
-  name: "foo",
-  version: "0.0.1",
+  name: "foo@0.0.1",
   packages: [],
   interfaces: [
     {
