@@ -1,6 +1,7 @@
 import { grammar } from "./grammar";
 import { defineAST } from "./ast";
 import { File } from "./ast.types";
+import { defineModel } from "./model/model.semantics";
 
 /**
  * Parses a WIT (WebAssembly Interface Types) input string and returns the AST.
@@ -13,7 +14,6 @@ export function parseWit(input: string): File {
   const semantics = grammar.createSemantics();
 
   defineAST(semantics);
-
   // Parse the input
   const match = grammar.match(input);
   if (match.failed()) {

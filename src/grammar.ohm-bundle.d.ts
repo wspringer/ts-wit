@@ -50,8 +50,7 @@ export interface WitActionDict<T> extends BaseActionDict<T> {
   DeprecatedGate?: (this: NonterminalNode, arg0: TerminalNode, arg1: TerminalNode, arg2: NonterminalNode, arg3: TerminalNode) => T;
   FeatureField?: (this: NonterminalNode, arg0: TerminalNode, arg1: TerminalNode, arg2: NonterminalNode) => T;
   VersionField?: (this: NonterminalNode, arg0: TerminalNode, arg1: TerminalNode, arg2: NonterminalNode) => T;
-  FlagsItems?: (this: NonterminalNode, arg0: TerminalNode, arg1: NonterminalNode, arg2: TerminalNode, arg3: NonterminalNode, arg4: TerminalNode) => T;
-  FlagsFields?: (this: NonterminalNode, arg0: NonterminalNode, arg1: IterationNode, arg2: IterationNode) => T;
+  FlagsItems?: (this: NonterminalNode, arg0: TerminalNode, arg1: NonterminalNode, arg2: TerminalNode, arg3: NonterminalNode, arg4: IterationNode, arg5: TerminalNode) => T;
   FlagsField?: (this: NonterminalNode, arg0: NonterminalNode) => T;
   TypeItem?: (this: NonterminalNode, arg0: TerminalNode, arg1: NonterminalNode, arg2: TerminalNode, arg3: NonterminalNode, arg4: TerminalNode) => T;
   VariantItem?: (this: NonterminalNode, arg0: TerminalNode, arg1: NonterminalNode, arg2: TerminalNode, arg3: NonterminalNode, arg4: IterationNode, arg5: TerminalNode) => T;
@@ -66,9 +65,10 @@ export interface WitActionDict<T> extends BaseActionDict<T> {
   ResourceMethod_constructor?: (this: NonterminalNode, arg0: TerminalNode, arg1: NonterminalNode, arg2: TerminalNode) => T;
   ResourceMethod?: (this: NonterminalNode, arg0: NonterminalNode) => T;
   FuncItem?: (this: NonterminalNode, arg0: NonterminalNode, arg1: TerminalNode, arg2: NonterminalNode, arg3: TerminalNode) => T;
-  FuncType?: (this: NonterminalNode, arg0: IterationNode, arg1: TerminalNode, arg2: NonterminalNode, arg3: IterationNode, arg4: IterationNode) => T;
-  ParamList?: (this: NonterminalNode, arg0: TerminalNode, arg1: IterationNode, arg2: TerminalNode) => T;
-  NamedTypeList?: (this: NonterminalNode, arg0: NonterminalNode, arg1: IterationNode, arg2: IterationNode) => T;
+  FuncType?: (this: NonterminalNode, arg0: IterationNode, arg1: TerminalNode, arg2: NonterminalNode, arg3: IterationNode) => T;
+  ResultList?: (this: NonterminalNode, arg0: TerminalNode, arg1: NonterminalNode) => T;
+  ParamList?: (this: NonterminalNode, arg0: TerminalNode, arg1: NonterminalNode, arg2: TerminalNode) => T;
+  NamedTypeList?: (this: NonterminalNode, arg0: NonterminalNode) => T;
   NamedType?: (this: NonterminalNode, arg0: NonterminalNode, arg1: TerminalNode, arg2: NonterminalNode) => T;
   TypeRef?: (this: NonterminalNode, arg0: NonterminalNode) => T;
   RefType?: (this: NonterminalNode, arg0: NonterminalNode) => T;

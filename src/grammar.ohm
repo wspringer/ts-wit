@@ -107,9 +107,7 @@ Wit {
   VersionField = "version" "=" version
 
   FlagsItems
-    = "flags" ident "{" FlagsFields "}"
-
-  FlagsFields = FlagsField ("," FlagsField)*
+    = "flags" ident "{" NonemptyListOf<FlagsField, ","> ","? "}"
 
   FlagsField = ident
 
@@ -123,7 +121,7 @@ Wit {
     = ident ("(" TypeRef ")")?
 
   EnumItem
-    = "enum" ident "{" NonemptyListOf<EnumCase, ","> ","? "}"
+    = "enum" ident "{" NonemptyListOf<ident, ","> ","? "}"
 
   EnumCase
     = ident
@@ -144,11 +142,13 @@ Wit {
 
   FuncItem = ident ":" FuncType ";"
 
-  FuncType = "async"? "func" ParamList ("->" TypeRef)?
+  FuncType = "async"? "func" ParamList ResultList?
 
-  ParamList = "(" NamedTypeList? ")"
+  ResultList = "->" TypeRef
 
-  NamedTypeList = NamedType ("," NamedType)*
+  ParamList = "(" NamedTypeList ")"
+
+  NamedTypeList = ListOf<NamedType, ",">
 
   NamedType = ident ":" TypeRef
 

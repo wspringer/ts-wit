@@ -1,0 +1,320 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`model.semantics should parse a flags declaration 1`] = `
+{
+  "interfaces": [
+    {
+      "functions": [],
+      "name": "bar",
+      "typeDefs": [
+        {
+          "fields": [
+            "A",
+            "B",
+            "C",
+          ],
+          "kind": "flags",
+          "name": "foo",
+        },
+      ],
+    },
+  ],
+  "name": undefined,
+  "packages": [],
+  "uses": [],
+  "worlds": [],
+}
+`;
+
+exports[`model.semantics should parse a package declaration 1`] = `
+{
+  "interfaces": [],
+  "name": "foo:bar@0.0.1",
+  "packages": [],
+  "uses": [],
+  "worlds": [],
+}
+`;
+
+exports[`model.semantics should parse a record 1`] = `
+{
+  "interfaces": [
+    {
+      "functions": [],
+      "name": "bar",
+      "typeDefs": [
+        {
+          "fields": [
+            {
+              "name": "a",
+              "type": "string",
+            },
+            {
+              "name": "b",
+              "type": "int",
+            },
+          ],
+          "kind": "record",
+          "name": "foo",
+        },
+      ],
+    },
+  ],
+  "name": undefined,
+  "packages": [],
+  "uses": [],
+  "worlds": [],
+}
+`;
+
+exports[`model.semantics should parse an interface declaration 1`] = `
+{
+  "interfaces": [
+    {
+      "functions": [],
+      "name": "bar",
+      "typeDefs": [],
+    },
+  ],
+  "name": undefined,
+  "packages": [],
+  "uses": [],
+  "worlds": [],
+}
+`;
+
+exports[`model.semantics should parse an interface declaration with a parameterized function 1`] = `
+{
+  "interfaces": [
+    {
+      "functions": [
+        {
+          "name": "method",
+          "params": [
+            {
+              "name": "a",
+              "type": "string",
+            },
+            [],
+            [],
+          ],
+          "result": "string",
+        },
+      ],
+      "name": "bar",
+      "typeDefs": [],
+    },
+  ],
+  "name": undefined,
+  "packages": [],
+  "uses": [],
+  "worlds": [],
+}
+`;
+
+exports[`model.semantics should parse an interface declaration with a parameterless function 1`] = `
+{
+  "interfaces": [
+    {
+      "functions": [
+        {
+          "name": "method",
+          "params": [],
+          "result": "string",
+        },
+      ],
+      "name": "bar",
+      "typeDefs": [],
+    },
+  ],
+  "name": undefined,
+  "packages": [],
+  "uses": [],
+  "worlds": [],
+}
+`;
+
+exports[`model.semantics should parse an interface with a type alias 1`] = `
+{
+  "interfaces": [
+    {
+      "functions": [],
+      "name": "bar",
+      "typeDefs": [
+        {
+          "kind": "alias",
+          "name": "foo",
+          "type": "string",
+        },
+      ],
+    },
+  ],
+  "name": undefined,
+  "packages": [],
+  "uses": [],
+  "worlds": [],
+}
+`;
+
+exports[`model.semantics should parse an interface with a type alias pointing to a list 1`] = `
+{
+  "interfaces": [
+    {
+      "functions": [],
+      "name": "bar",
+      "typeDefs": [
+        {
+          "kind": "alias",
+          "name": "foo",
+          "type": {
+            "kind": "list",
+            "type": "string",
+          },
+        },
+      ],
+    },
+  ],
+  "name": undefined,
+  "packages": [],
+  "uses": [],
+  "worlds": [],
+}
+`;
+
+exports[`model.semantics should parse an interface with a type alias pointing to a result 1`] = `
+{
+  "interfaces": [
+    {
+      "functions": [],
+      "name": "bar",
+      "typeDefs": [
+        {
+          "kind": "alias",
+          "name": "foo",
+          "type": {
+            "error": undefined,
+            "kind": "result",
+            "ok": "string",
+          },
+        },
+      ],
+    },
+  ],
+  "name": undefined,
+  "packages": [],
+  "uses": [],
+  "worlds": [],
+}
+`;
+
+exports[`model.semantics should parse an interface with a type alias pointing to an option 1`] = `
+{
+  "interfaces": [
+    {
+      "functions": [],
+      "name": "bar",
+      "typeDefs": [
+        {
+          "kind": "alias",
+          "name": "foo",
+          "type": {
+            "kind": "option",
+            "type": "string",
+          },
+        },
+      ],
+    },
+  ],
+  "name": undefined,
+  "packages": [],
+  "uses": [],
+  "worlds": [],
+}
+`;
+
+exports[`model.semantics should parse an interface with a variant 1`] = `
+{
+  "interfaces": [
+    {
+      "functions": [],
+      "name": "bar",
+      "typeDefs": [
+        {
+          "cases": [
+            {
+              "name": "A",
+              "type": "string",
+            },
+            {
+              "name": "B",
+              "type": undefined,
+            },
+            {
+              "name": "C",
+              "type": undefined,
+            },
+          ],
+          "kind": "variant",
+          "name": "foo",
+        },
+      ],
+    },
+  ],
+  "name": undefined,
+  "packages": [],
+  "uses": [],
+  "worlds": [],
+}
+`;
+
+exports[`model.semantics should parse an interface with an enum 1`] = `
+{
+  "interfaces": [
+    {
+      "functions": [],
+      "name": "bar",
+      "typeDefs": [
+        {
+          "cases": [
+            "A",
+            "B",
+            "C",
+          ],
+          "kind": "enum",
+          "name": "foo",
+        },
+      ],
+    },
+  ],
+  "name": undefined,
+  "packages": [],
+  "uses": [],
+  "worlds": [],
+}
+`;
+
+exports[`model.semantics should parse an interface with an enum 2`] = `
+{
+  "interfaces": [
+    {
+      "functions": [],
+      "name": "bar",
+      "typeDefs": [
+        {
+          "cases": [
+            "A",
+            "B",
+            "C",
+          ],
+          "kind": "enum",
+          "name": "foo",
+        },
+      ],
+    },
+  ],
+  "name": undefined,
+  "packages": [],
+  "uses": [],
+  "worlds": [],
+}
+`;

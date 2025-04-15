@@ -33,7 +33,7 @@ export function isTypeRef<M>(ty: Ty<M>): ty is TypeRef<M> {
   return typeof ty === "object" && "name" in ty && !("kind" in ty);
 }
 
-export function isSimpleType<M>(ty: Ty<M>): ty is SimpleType<M> {
+export function isSimpleType<M>(ty: Ty<M>): ty is SimpleType {
   return (
     typeof ty === "string" &&
     [

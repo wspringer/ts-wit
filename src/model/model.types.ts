@@ -53,18 +53,18 @@ export type World<M> = {
   };
 } & Gated;
 
-export type Func<M> = {
+export type Func<M = {}> = {
   name: string;
   params: Param<M>[];
   result?: Ty<M>;
 };
 
-export type Param<M> = {
+export type Param<M = {}> = {
   name: string;
   type: Ty<M>;
 };
 
-export type InterfaceDef<M> = {
+export type InterfaceDef<M = {}> = {
   name: string;
   functions: Func<M>[];
   typeDefs: TypeDef<M>[];
@@ -80,6 +80,7 @@ export type TypeDef<M = {}> = (
   | EnumDef<M>
   | VariantDef<M>
   | RecordDef<M>
+  | FlagsDef<M>
 ) &
   MetaOf<M, "TypeDef">;
 
@@ -88,7 +89,7 @@ export type TupleType<M> = {
   items: Ty<M>[];
 };
 
-export type SimpleType<M> =
+export type SimpleType =
   | "s8"
   | "s16"
   | "s32"
@@ -103,59 +104,65 @@ export type SimpleType<M> =
   | "string"
   | "char";
 
-export type RecordDef<M> = {
+export type RecordDef<M = {}> = {
   kind: "record";
   name: string;
   fields: RecordField<M>[];
-};
+} & MetaOf<M, "RecordDef">;
 
-export type RecordField<M> = {
+export type RecordField<M = {}> = {
   name: string;
   type: Ty<M>;
-};
+} & MetaOf<M, "RecordField">;
 
-export type EnumDef<M> = {
+export type EnumDef<M = {}> = {
   kind: "enum";
   name: string;
   cases: string[];
-};
+} & MetaOf<M, "EnumDef">;
 
-export type OptionType<M> = {
+export type FlagsDef<M = {}> = {
+  kind: "flags";
+  name: string;
+  fields: string[];
+} & MetaOf<M, "FlagsDef">;
+
+export type OptionType<M = {}> = {
   kind: "option";
   type: Ty<M>;
 };
 
-export type ListType<M> = {
+export type ListType<M = {}> = {
   kind: "list";
   type: Ty<M>;
 };
 
-export type ResultType<M> = {
+export type ResultType<M = {}> = {
   kind: "result";
   ok?: Ty<M>;
   error?: Ty<M>;
 };
 
-export type VariantDef<M> = {
+export type VariantDef<M = {}> = {
   kind: "variant";
   name: string;
   cases: VariantCase<M>[];
-};
+} & MetaOf<M, "VariantDef">;
 
-export type VariantCase<M> = {
+export type VariantCase<M = {}> = {
   name: string;
   type?: Ty<M>;
-};
+} & MetaOf<M, "VariantCase">;
 
-export type AliasDef<M> = {
+export type AliasDef<M = {}> = {
   kind: "alias";
   name: string;
   type: Ty<M>;
-};
+} & MetaOf<M, "AliasDef">;
 
 export type Ty<M = {}> =
   | TypeRef<M>
-  | SimpleType<M>
+  | SimpleType
   | OptionType<M>
   | ListType<M>
   | ResultType<M>
