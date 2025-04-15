@@ -38,20 +38,20 @@ export type WorldContainer<M> = {
 };
 
 export type InterfaceContainer<M> = {
-  interfaces: Interface<M>[];
+  interfaces: InterfaceDef<M>[];
 };
 
 export type World<M> = {
   name: string;
   exports: {
     functions: Func<M>[];
-    interfaces: (Interface<M> | InterfaceRef<M>)[];
+    interfaces: (InterfaceDef<M> | InterfaceRef<M>)[];
   };
   imports: {
     functions: Func<M>[];
-    interfaces: (Interface<M> | InterfaceRef<M>)[];
+    interfaces: (InterfaceDef<M> | InterfaceRef<M>)[];
   };
-};
+} & Gated;
 
 export type Func<M> = {
   name: string;
@@ -64,11 +64,12 @@ export type Param<M> = {
   type: Ty<M>;
 };
 
-export type Interface<M> = {
+export type InterfaceDef<M> = {
   name: string;
   functions: Func<M>[];
   typeDefs: TypeDef<M>[];
-} & MetaOf<M, "Interface">;
+} & Gated &
+  MetaOf<M, "InterfaceDef">;
 
 export type InterfaceRef<M> = {
   name: string;
@@ -164,6 +165,12 @@ export type TypeRef<M> = {
   name: string;
 } & MetaOf<M, "TypeRef">;
 
+export type Gated = {
+  since?: string;
+  until?: string; // aka deprecated
+  unstable?: string;
+};
+
 export type Qualified = {
   fqn: string;
 };
@@ -179,7 +186,7 @@ export type Resolved<T> = {
 export type QualifiedWit = Wit<{
   TypeRef: Qualified;
   TypeDef: Qualified;
-  Interface: Qualified;
+  InterfaceDef: Qualified;
   InterfaceRef: Qualified;
 }>;
 
@@ -189,7 +196,7 @@ export type QualifiedWit = Wit<{
  */
 export type ResolvedWit = Wit<{
   TypeRef: Resolved<TypeDef<ResolvedWit>>;
-  InterfaceRef: Resolved<Interface<ResolvedWit>>;
+  InterfaceRef: Resolved<InterfaceDef<ResolvedWit>>;
 }>;
 
 export const test: Wit = {
@@ -222,6 +229,8 @@ export const test: Wit = {
   worlds: [
     {
       name: "foo",
+      since: "0.0.1",
+      unstable: "foo-bar",
       exports: {
         functions: [
           {
