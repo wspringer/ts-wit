@@ -101,7 +101,7 @@ export function defineAST(semantics: WitSemantics) {
       return item.resolve();
     },
 
-    ToplevelUseItem(use, path, as, ident, semicolon) {
+    ToplevelUseItem(use, path, as, alias, semicolon) {
       const useItem: ToplevelUseItem = {
         kind: "use",
         location: {
@@ -109,7 +109,7 @@ export function defineAST(semantics: WitSemantics) {
           end: semicolon.source.endIdx,
         },
         path: path.resolve(),
-        alias: as ? ident.sourceString : undefined,
+        alias: as ? alias.sourceString : undefined,
       };
       return useItem;
     },
