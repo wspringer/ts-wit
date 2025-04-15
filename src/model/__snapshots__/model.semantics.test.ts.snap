@@ -327,7 +327,6 @@ exports[`model.semantics should parse nested packages 1`] = `
     {
       "interfaces": [],
       "name": "foo:bar@0.0.1",
-      "packages": [],
     },
   ],
   "uses": [],

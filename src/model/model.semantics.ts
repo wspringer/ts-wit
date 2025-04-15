@@ -271,7 +271,6 @@ function defineModel(semantics: WitSemantics) {
         kind: "package",
         boxed: {
           name: packageDecl.toModel(),
-          packages: [],
           interfaces: [],
         },
       };

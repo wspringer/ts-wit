@@ -19,9 +19,9 @@ export type RootPackage<M> = Package<M> & {
   packages: NestedPackage<M>[];
 };
 
-export type NestedPackage<M = {}> = Package<M> & {
+export type NestedPackage<M = {}> = {
   name: string;
-};
+} & InterfaceContainer<M>;
 
 export type Wit<M = {}> = RootPackage<M> &
   WorldContainer<M> & {

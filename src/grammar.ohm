@@ -6,7 +6,7 @@ Wit {
   PackageDecl
     = "package" packageIdentifier
 
-  NestedPackageDefinition = PackageDecl "{" PackageItem* "}"
+  NestedPackageDefinition = PackageDecl "{" InterfaceItem* "}"
 
   PackageItem
     = ToplevelUseItem
