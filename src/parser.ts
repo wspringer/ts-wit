@@ -1,25 +1,13 @@
 import { grammar } from "./grammar";
-import { defineAST } from "./ast";
-import { File } from "./ast.types";
-import { defineModel } from "./model/model.semantics";
+import { defineModel } from "./semantics";
+import { Wit } from "./ast";
 
-/**
- * Parses a WIT (WebAssembly Interface Types) input string and returns the AST.
- * @param input The WIT input string to parse
- * @returns The parsed AST as a File node
- * @throws Error if parsing fails
- */
-export function parseWit(input: string): File {
-
+export function parseWit(input: string): Wit {
   const semantics = grammar.createSemantics();
-
-  defineAST(semantics);
-  // Parse the input
+  defineModel(semantics);
   const match = grammar.match(input);
   if (match.failed()) {
-    throw new Error(`Failed to parse WIT: ${match.message}`);
+    throw new Error(match.message);
   }
-
-  // Build and return the AST
-  return semantics(match).resolve() as File;
+  return semantics(match).toModel();
 }

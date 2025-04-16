@@ -9,8 +9,8 @@ import {
   isListType,
   isResultType,
   isTupleType,
-} from "./model.guards";
-import { AliasDef, Ty, TypeDef } from "./model.types";
+} from "./guards";
+import { AliasDef, Ty, TypeDef } from "./ast";
 
 describe("Type Guards", () => {
   describe("TypeDef Guards", () => {

@@ -1,4 +1,4 @@
-import { parseWit } from "./model.semantics";
+import { parseWit } from "./parser";
 
 describe("model.semantics", () => {
   it("should parse a package declaration", () => {
@@ -332,5 +332,4 @@ describe("model.semantics", () => {
     const parsed = parseWit(input);
     expect(parsed).toMatchSnapshot();
   });
-
 });

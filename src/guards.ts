@@ -11,7 +11,8 @@ import {
   ListType,
   ResultType,
   TupleType,
-} from "./model.types";
+  ResourceDef,
+} from "./ast";
 
 export function isAliasDef<M>(typeDef: TypeDef<M>): typeDef is AliasDef<M> {
   return typeDef.kind === "alias";
@@ -27,6 +28,12 @@ export function isVariantDef<M>(typeDef: TypeDef<M>): typeDef is VariantDef<M> {
 
 export function isRecordDef<M>(typeDef: TypeDef<M>): typeDef is RecordDef<M> {
   return typeDef.kind === "record";
+}
+
+export function isResourceDef<M>(
+  typeDef: TypeDef<M>
+): typeDef is ResourceDef<M> {
+  return typeDef.kind === "resource";
 }
 
 export function isTypeRef<M>(ty: Ty<M>): ty is TypeRef<M> {

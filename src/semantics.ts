@@ -1,4 +1,4 @@
-import { WitSemantics } from "../grammar.ohm-bundle";
+import { WitSemantics } from "./grammar.ohm-bundle";
 import {
   AliasDef,
   EnumDef,
@@ -25,15 +25,14 @@ import {
   VariantDef,
   Wit,
   World,
-} from "./model.types";
-import { grammar } from "../grammar";
+} from "./ast";
 
 type Item<K, T> = {
   kind: K;
   boxed: T;
 };
 
-function defineModel(semantics: WitSemantics) {
+export function defineModel(semantics: WitSemantics) {
   semantics.addOperation<any>("toModel", {
     File(packageDecl, semicolon, packageItems): Wit {
       const items: Item<any, any>[] = packageItems.children.map((child) =>
@@ -626,14 +625,4 @@ function defineModel(semantics: WitSemantics) {
       return ident.sourceString;
     },
   });
-}
-
-export function parseWit(input: string): Wit {
-  const semantics = grammar.createSemantics();
-  defineModel(semantics);
-  const match = grammar.match(input);
-  if (match.failed()) {
-    throw new Error(match.message);
-  }
-  return semantics(match).toModel();
 }
