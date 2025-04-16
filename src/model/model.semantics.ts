@@ -14,6 +14,7 @@ import {
   Param,
   RecordDef,
   RecordField,
+  ResourceDef,
   ResultType,
   SimpleType,
   TupleType,
@@ -361,6 +362,25 @@ function defineModel(semantics: WitSemantics) {
       return {
         kind: "func",
         boxed,
+      };
+    },
+
+    ResourceItem(
+      record,
+      ident,
+      openBrace,
+      resourceMethods,
+      closeBrace
+    ): Item<"typeDef", ResourceDef> {
+      return {
+        kind: "typeDef",
+        boxed: {
+          kind: "resource",
+          name: ident.sourceString,
+          methods: [],
+          static: [],
+          constructor: [],
+        },
       };
     },
 

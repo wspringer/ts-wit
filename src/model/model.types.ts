@@ -90,8 +90,17 @@ export type TypeDef<M = {}> = (
   | VariantDef<M>
   | RecordDef<M>
   | FlagsDef<M>
+  | ResourceDef<M>
 ) &
   MetaOf<M, "TypeDef">;
+
+export type ResourceDef<M = {}> = {
+  kind: "resource";
+  name: string;
+  methods: Func<M>[];
+  static: Func<M>[];
+  constructor: Param<M>[];
+} & MetaOf<M, "ResourceDef">;
 
 export type TupleType<M = {}> = {
   kind: "tuple";

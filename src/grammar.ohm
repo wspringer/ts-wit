@@ -136,7 +136,7 @@ Wit {
   	= "resource" ident "{" ResourceMethod* "}"
 
   ResourceMethod
-    = ident ":" FuncType ";"                -- method
+  = FuncItem                                -- method
     | ident ":" "static" FuncType ";"       -- static
     | "constructor" ParamList ";"           -- constructor
 

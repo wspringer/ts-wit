@@ -577,192 +577,7 @@ exports[`model.semantics should parse gates in a world 1`] = `
 }
 `;
 
-exports[`model.semantics should parse gates on fuinterfaces exported from a world 1`] = `
-{
-  "interfaces": [],
-  "name": undefined,
-  "packages": [],
-  "uses": [],
-  "worlds": [
-    {
-      "exports": {
-        "functions": [],
-        "interfaces": [
-          {
-            "functions": [
-              {
-                "name": "method",
-                "params": [],
-                "result": "string",
-                "unstable": "jazz",
-              },
-            ],
-            "name": "bar",
-            "typeDefs": [],
-          },
-        ],
-      },
-      "imports": {
-        "functions": [],
-        "interfaces": [],
-      },
-      "includes": [],
-      "name": "foo",
-      "typeDefs": [],
-    },
-  ],
-}
-`;
-
-exports[`model.semantics should parse gates on funcinterfaces exported from a world 1`] = `
-{
-  "interfaces": [],
-  "name": undefined,
-  "packages": [],
-  "uses": [],
-  "worlds": [
-    {
-      "exports": {
-        "functions": [],
-        "interfaces": [
-          {
-            "functions": [
-              {
-                "name": "method",
-                "params": [],
-                "result": "string",
-                "unstable": "jazz",
-              },
-            ],
-            "name": "bar",
-            "typeDefs": [],
-          },
-        ],
-      },
-      "imports": {
-        "functions": [],
-        "interfaces": [],
-      },
-      "includes": [],
-      "name": "foo",
-      "typeDefs": [],
-    },
-  ],
-}
-`;
-
-exports[`model.semantics should parse gates on functions interfaces exported from a world 1`] = `
-{
-  "interfaces": [],
-  "name": undefined,
-  "packages": [],
-  "uses": [],
-  "worlds": [
-    {
-      "exports": {
-        "functions": [],
-        "interfaces": [
-          {
-            "functions": [
-              {
-                "name": "method",
-                "params": [],
-                "result": "string",
-                "unstable": "jazz",
-              },
-            ],
-            "name": "bar",
-            "typeDefs": [],
-          },
-        ],
-      },
-      "imports": {
-        "functions": [],
-        "interfaces": [],
-      },
-      "includes": [],
-      "name": "foo",
-      "typeDefs": [],
-    },
-  ],
-}
-`;
-
 exports[`model.semantics should parse gates on functions of interfaces exported from a world 1`] = `
-{
-  "interfaces": [],
-  "name": undefined,
-  "packages": [],
-  "uses": [],
-  "worlds": [
-    {
-      "exports": {
-        "functions": [],
-        "interfaces": [
-          {
-            "functions": [
-              {
-                "name": "method",
-                "params": [],
-                "result": "string",
-                "unstable": "jazz",
-              },
-            ],
-            "name": "bar",
-            "typeDefs": [],
-          },
-        ],
-      },
-      "imports": {
-        "functions": [],
-        "interfaces": [],
-      },
-      "includes": [],
-      "name": "foo",
-      "typeDefs": [],
-    },
-  ],
-}
-`;
-
-exports[`model.semantics should parse gates on functions ofinterfaces exported from a world 1`] = `
-{
-  "interfaces": [],
-  "name": undefined,
-  "packages": [],
-  "uses": [],
-  "worlds": [
-    {
-      "exports": {
-        "functions": [],
-        "interfaces": [
-          {
-            "functions": [
-              {
-                "name": "method",
-                "params": [],
-                "result": "string",
-                "unstable": "jazz",
-              },
-            ],
-            "name": "bar",
-            "typeDefs": [],
-          },
-        ],
-      },
-      "imports": {
-        "functions": [],
-        "interfaces": [],
-      },
-      "includes": [],
-      "name": "foo",
-      "typeDefs": [],
-    },
-  ],
-}
-`;
-
-exports[`model.semantics should parse gates on functionsinterfaces exported from a world 1`] = `
 {
   "interfaces": [],
   "name": undefined,
@@ -813,43 +628,6 @@ exports[`model.semantics should parse gates on interfaces 1`] = `
   "packages": [],
   "uses": [],
   "worlds": [],
-}
-`;
-
-exports[`model.semantics should parse gates on interfaces exported from a world 1`] = `
-{
-  "interfaces": [],
-  "name": undefined,
-  "packages": [],
-  "uses": [],
-  "worlds": [
-    {
-      "exports": {
-        "functions": [],
-        "interfaces": [
-          {
-            "functions": [
-              {
-                "name": "method",
-                "params": [],
-                "result": "string",
-                "unstable": "jazz",
-              },
-            ],
-            "name": "bar",
-            "typeDefs": [],
-          },
-        ],
-      },
-      "imports": {
-        "functions": [],
-        "interfaces": [],
-      },
-      "includes": [],
-      "name": "foo",
-      "typeDefs": [],
-    },
-  ],
 }
 `;
 
@@ -945,6 +723,30 @@ exports[`model.semantics should parse nested packages 1`] = `
       "name": "foo:bar@0.0.1",
     },
   ],
+  "uses": [],
+  "worlds": [],
+}
+`;
+
+exports[`model.semantics should parse resources 1`] = `
+{
+  "interfaces": [
+    {
+      "functions": [],
+      "name": "bar",
+      "typeDefs": [
+        {
+          "constructor": [],
+          "kind": "resource",
+          "methods": [],
+          "name": "foo",
+          "static": [],
+        },
+      ],
+    },
+  ],
+  "name": undefined,
+  "packages": [],
   "uses": [],
   "worlds": [],
 }

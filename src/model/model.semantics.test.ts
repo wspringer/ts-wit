@@ -305,4 +305,18 @@ describe("model.semantics", () => {
     const parsed = parseWit(input);
     expect(parsed).toMatchSnapshot();
   });
+
+  it("should parse resources", () => {
+    const input = `
+    interface bar {
+      resource foo {
+        method: func() -> string;
+        static: func() -> string;
+        constructor: func() -> string;
+      }
+    }
+    `;
+    const parsed = parseWit(input);
+    expect(parsed).toMatchSnapshot();
+  });
 });
