@@ -39,7 +39,7 @@ export interface WitActionDict<T> extends BaseActionDict<T> {
   UsePath?: (this: NonterminalNode, arg0: NonterminalNode) => T;
   BareUsePath?: (this: NonterminalNode, arg0: NonterminalNode) => T;
   QualifiedUsePath?: (this: NonterminalNode, arg0: NonterminalNode) => T;
-  InterfaceItem?: (this: NonterminalNode, arg0: TerminalNode, arg1: NonterminalNode, arg2: TerminalNode, arg3: IterationNode, arg4: TerminalNode) => T;
+  InterfaceItem?: (this: NonterminalNode, arg0: NonterminalNode, arg1: TerminalNode, arg2: NonterminalNode, arg3: TerminalNode, arg4: IterationNode, arg5: TerminalNode) => T;
   InterfaceItems?: (this: NonterminalNode, arg0: NonterminalNode, arg1: NonterminalNode) => T;
   InterfaceDefinition?: (this: NonterminalNode, arg0: NonterminalNode) => T;
   TypedefItem?: (this: NonterminalNode, arg0: NonterminalNode) => T;

@@ -220,4 +220,68 @@ describe("model.semantics", () => {
     expect(parsed).toMatchSnapshot();
   });
 
+  it("should parse include statements", () => {
+    const input = `
+    world foo {
+      include foo:bar@0.0.1;
+    }
+  `;
+    const parsed = parseWit(input);
+    expect(parsed).toMatchSnapshot();
+  });
+
+  it("should parse include statements with aliases", () => {
+    const input = `
+    world foo {
+      include foo:bar@0.0.1 with { baz as qux }
+    }
+    `;
+    const parsed = parseWit(input);
+    expect(parsed).toMatchSnapshot();
+  });
+
+  it("should parse type defs in a world", () => {
+    const input = `
+    world foo {
+      type bar = string;
+    }
+    `;
+    const parsed = parseWit(input);
+    expect(parsed).toMatchSnapshot();
+  });
+
+  it("should parse gates in a world", () => {
+    const input = `
+    @unstable(feature=jazz) world foo {
+    }
+    `;
+    const parsed = parseWit(input);
+    expect(parsed).toMatchSnapshot();
+  });
+
+  it("should parse since gates in a world", () => {
+    const input = `
+    @since(version=1.0.0) world foo {
+    }
+    `;
+    const parsed = parseWit(input);
+    expect(parsed).toMatchSnapshot();
+  });
+
+  it("should parse deprecated gates in a world", () => {
+    const input = `
+    @deprecated(version=1.0.0) world foo {
+    }
+    `;
+    const parsed = parseWit(input);
+    expect(parsed).toMatchSnapshot();
+  });
+
+  it("should parse gates on interfaces", () => {
+    const input = `
+    @unstable(feature=jazz) interface bar {
+    }`;
+    const parsed = parseWit(input);
+    expect(parsed).toMatchSnapshot();
+  });
 });

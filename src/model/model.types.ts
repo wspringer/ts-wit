@@ -51,7 +51,16 @@ export type World<M = {}> = {
     functions: Func<M>[];
     interfaces: (InterfaceDef<M> | InterfaceRef<M>)[];
   };
+  includes: Include<M>[];
+  typeDefs: TypeDef<M>[];
 } & Gated;
+
+export type Include<M = {}> = {
+  path: string;
+  aliases?: {
+    [key: string]: string;
+  };
+} & MetaOf<M, "Include">;
 
 export type Func<M = {}> = {
   name: string;
@@ -264,6 +273,8 @@ export const test: Wit = {
         functions: [],
         interfaces: [],
       },
+      includes: [],
+      typeDefs: [],
     },
   ],
 };

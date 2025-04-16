@@ -42,7 +42,7 @@ Wit {
 
   IncludeItem
     = "include" UsePath ";"                                               -- simple
-    | "include" UsePath "with" "{" ListOf<IncludeNamesItem, ",">  "}"     -- aliased
+    | "include" UsePath "with" "{" ListOf<IncludeNamesItem, ","> "}"     -- aliased
 
   IncludeNamesItem = ident "as" ident
 
@@ -71,7 +71,7 @@ Wit {
   QualifiedUsePath = packageIdentifier
 
   InterfaceItem
-    = "interface" ident "{" InterfaceItems* "}"
+    = Gate "interface" ident "{" InterfaceItems* "}"
 
   InterfaceItems = Gate InterfaceDefinition
 

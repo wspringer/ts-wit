@@ -4,6 +4,8 @@ import {
   EnumDef,
   FlagsDef,
   Func,
+  Gated,
+  Include,
   InterfaceDef,
   ListType,
   NestedPackage,
@@ -72,6 +74,44 @@ function defineModel(semantics: WitSemantics) {
       return name.sourceString;
     },
 
+    Gate(gateItems): Gated {
+      const items: Gated[] = gateItems.children.map((child) => child.toModel());
+      return items.reduce((acc, item) => ({
+        ...acc,
+        ...item,
+      }), {});
+    },
+
+    GateItem(gateItem): Gated {
+      return gateItem.toModel();
+    },
+
+    UnstableGate(unatable, lparen, feature, rparen): Gated {
+      return {
+        unstable: feature.toModel(),
+      };
+    },
+
+    FeatureField(feature, eq, ident): string {
+      return ident.sourceString;
+    },
+
+    SinceGate(since, lparen, version, rparen): Gated {
+      return {
+        since: version.toModel(),
+      };
+    },
+
+    DeprecatedGate(deprecated, lparen, version, rparen): Gated {
+      return {
+        until: version.toModel(),
+      };
+    },
+
+    VersionField(version, eq, ident): string {
+      return ident.sourceString;
+    },
+
     WorldItem(
       gate,
       world,
@@ -93,10 +133,17 @@ function defineModel(semantics: WitSemantics) {
       const importedInterfaces: InterfaceDef[] = items
         .filter((item) => item.kind === "import-interface")
         .map((item) => item.boxed);
+      const includes: Include[] = items
+        .filter((item) => item.kind === "include")
+        .map((item) => item.boxed);
+      const typeDefs: TypeDef[] = items
+        .filter((item) => item.kind === "typeDef")
+        .map((item) => item.boxed);
       return {
         kind: "world",
         boxed: {
           name: ident.sourceString,
+          ...gate.toModel(),
           exports: {
             functions: exportedFunctions,
             interfaces: exportedInterfaces,
@@ -105,6 +152,8 @@ function defineModel(semantics: WitSemantics) {
             functions: importedFunctions,
             interfaces: importedInterfaces,
           },
+          includes,
+          typeDefs,
         },
       };
     },
@@ -118,6 +167,39 @@ function defineModel(semantics: WitSemantics) {
       | Item<"import-func", Func>
       | Item<"import-interface", InterfaceDef> {
       return worldDefinition.toModel();
+    },
+
+    IncludeItem_simple(incude, usePath, semicolon): Item<"include", Include> {
+      return {
+        kind: "include",
+        boxed: {
+          path: usePath.sourceString,
+        },
+      };
+    },
+
+    IncludeItem_aliased(
+      include,
+      usePath,
+      with_,
+      openBrace,
+      includeNames,
+      closeBrace
+    ): Item<"include", Include> {
+      const aliases: [string, string][] = includeNames
+        .asIteration()
+        .children.map((child) => child.toModel());
+      return {
+        kind: "include",
+        boxed: {
+          path: usePath.sourceString,
+          aliases: Object.fromEntries(aliases),
+        },
+      };
+    },
+
+    IncludeNamesItem(ident, as, alias): [string, string] {
+      return [ident.sourceString, alias.sourceString];
     },
 
     ImportItem(
@@ -230,6 +312,7 @@ function defineModel(semantics: WitSemantics) {
     },
 
     InterfaceItem(
+      gate,
       interface_,
       name,
       openBrace,
@@ -246,6 +329,7 @@ function defineModel(semantics: WitSemantics) {
       return {
         kind: "interface",
         boxed: {
+          ...gate.toModel(),
           name: name.sourceString,
           functions,
           typeDefs,

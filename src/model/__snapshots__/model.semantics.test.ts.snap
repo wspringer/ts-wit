@@ -57,7 +57,9 @@ exports[`model.semantics should parse a world 1`] = `
         "functions": [],
         "interfaces": [],
       },
+      "includes": [],
       "name": "foo",
+      "typeDefs": [],
     },
   ],
 }
@@ -85,7 +87,9 @@ exports[`model.semantics should parse a world with an exported function 1`] = `
         "functions": [],
         "interfaces": [],
       },
+      "includes": [],
       "name": "foo",
+      "typeDefs": [],
     },
   ],
 }
@@ -113,7 +117,9 @@ exports[`model.semantics should parse a world with an exported interface 1`] = `
         "functions": [],
         "interfaces": [],
       },
+      "includes": [],
       "name": "foo",
+      "typeDefs": [],
     },
   ],
 }
@@ -141,7 +147,9 @@ exports[`model.semantics should parse a world with an imported function 1`] = `
         ],
         "interfaces": [],
       },
+      "includes": [],
       "name": "foo",
+      "typeDefs": [],
     },
   ],
 }
@@ -169,7 +177,9 @@ exports[`model.semantics should parse a world with an imported interface 1`] = `
           },
         ],
       },
+      "includes": [],
       "name": "foo",
+      "typeDefs": [],
     },
   ],
 }
@@ -203,7 +213,9 @@ exports[`model.semantics should parse a world with an interface with members  1`
         "functions": [],
         "interfaces": [],
       },
+      "includes": [],
       "name": "foo",
+      "typeDefs": [],
     },
   ],
 }
@@ -489,6 +501,31 @@ exports[`model.semantics should parse an interface with an enum 2`] = `
 }
 `;
 
+exports[`model.semantics should parse deprecated gates in a world 1`] = `
+{
+  "interfaces": [],
+  "name": undefined,
+  "packages": [],
+  "uses": [],
+  "worlds": [
+    {
+      "exports": {
+        "functions": [],
+        "interfaces": [],
+      },
+      "imports": {
+        "functions": [],
+        "interfaces": [],
+      },
+      "includes": [],
+      "name": "foo",
+      "typeDefs": [],
+      "until": "1.0.0",
+    },
+  ],
+}
+`;
+
 exports[`model.semantics should parse flags 1`] = `
 {
   "interfaces": [
@@ -515,6 +552,107 @@ exports[`model.semantics should parse flags 1`] = `
 }
 `;
 
+exports[`model.semantics should parse gates in a world 1`] = `
+{
+  "interfaces": [],
+  "name": undefined,
+  "packages": [],
+  "uses": [],
+  "worlds": [
+    {
+      "exports": {
+        "functions": [],
+        "interfaces": [],
+      },
+      "imports": {
+        "functions": [],
+        "interfaces": [],
+      },
+      "includes": [],
+      "name": "foo",
+      "typeDefs": [],
+      "unstable": "jazz",
+    },
+  ],
+}
+`;
+
+exports[`model.semantics should parse gates on interfaces 1`] = `
+{
+  "interfaces": [
+    {
+      "functions": [],
+      "name": "bar",
+      "typeDefs": [],
+      "unstable": "jazz",
+    },
+  ],
+  "name": undefined,
+  "packages": [],
+  "uses": [],
+  "worlds": [],
+}
+`;
+
+exports[`model.semantics should parse include statements 1`] = `
+{
+  "interfaces": [],
+  "name": undefined,
+  "packages": [],
+  "uses": [],
+  "worlds": [
+    {
+      "exports": {
+        "functions": [],
+        "interfaces": [],
+      },
+      "imports": {
+        "functions": [],
+        "interfaces": [],
+      },
+      "includes": [
+        {
+          "path": "foo:bar@0.0.1",
+        },
+      ],
+      "name": "foo",
+      "typeDefs": [],
+    },
+  ],
+}
+`;
+
+exports[`model.semantics should parse include statements with aliases 1`] = `
+{
+  "interfaces": [],
+  "name": undefined,
+  "packages": [],
+  "uses": [],
+  "worlds": [
+    {
+      "exports": {
+        "functions": [],
+        "interfaces": [],
+      },
+      "imports": {
+        "functions": [],
+        "interfaces": [],
+      },
+      "includes": [
+        {
+          "aliases": {
+            "baz": "qux",
+          },
+          "path": "foo:bar@0.0.1",
+        },
+      ],
+      "name": "foo",
+      "typeDefs": [],
+    },
+  ],
+}
+`;
+
 exports[`model.semantics should parse nested packages 1`] = `
 {
   "interfaces": [],
@@ -527,6 +665,31 @@ exports[`model.semantics should parse nested packages 1`] = `
   ],
   "uses": [],
   "worlds": [],
+}
+`;
+
+exports[`model.semantics should parse since gates in a world 1`] = `
+{
+  "interfaces": [],
+  "name": undefined,
+  "packages": [],
+  "uses": [],
+  "worlds": [
+    {
+      "exports": {
+        "functions": [],
+        "interfaces": [],
+      },
+      "imports": {
+        "functions": [],
+        "interfaces": [],
+      },
+      "includes": [],
+      "name": "foo",
+      "since": "1.0.0",
+      "typeDefs": [],
+    },
+  ],
 }
 `;
 
@@ -557,5 +720,35 @@ exports[`model.semantics should parse top level use statements with an alias 1`]
     },
   ],
   "worlds": [],
+}
+`;
+
+exports[`model.semantics should parse type defs in a world 1`] = `
+{
+  "interfaces": [],
+  "name": undefined,
+  "packages": [],
+  "uses": [],
+  "worlds": [
+    {
+      "exports": {
+        "functions": [],
+        "interfaces": [],
+      },
+      "imports": {
+        "functions": [],
+        "interfaces": [],
+      },
+      "includes": [],
+      "name": "foo",
+      "typeDefs": [
+        {
+          "kind": "alias",
+          "name": "bar",
+          "type": "string",
+        },
+      ],
+    },
+  ],
 }
 `;
