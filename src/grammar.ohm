@@ -6,7 +6,7 @@ Wit {
   PackageDecl
     = "package" packageIdentifier
 
-  NestedPackageDefinition = PackageDecl "{" PackageItem* "}"
+  NestedPackageDefinition = PackageDecl "{" InterfaceItem* "}"
 
   PackageItem
     = ToplevelUseItem
@@ -41,17 +41,14 @@ Wit {
   ImportItemUsePath = "import" UsePath ";"
 
   IncludeItem
-    = "include" UsePath ";"                                 -- simple
-    | "include" UsePath "with" "{" IncludeNamesList "}"     -- aliased
-
-  IncludeNamesList = IncludeNamesItem ("," IncludeNamesItem)*
+    = "include" UsePath ";"                                               -- simple
+    | "include" UsePath "with" "{" ListOf<IncludeNamesItem, ","> "}"     -- aliased
 
   IncludeNamesItem = ident "as" ident
 
   UseItem = "use" UsePath "." "{" UseNamesList "}"
 
-  UseNamesList =
-  	UseNamesItem ("," UseNamesItem)*
+  UseNamesList = NonemptyListOf<UseNamesItem, ",">
 
   UseNamesItem = ident ("as" ident)?
 
@@ -74,7 +71,7 @@ Wit {
   QualifiedUsePath = packageIdentifier
 
   InterfaceItem
-    = "interface" ident "{" InterfaceItems* "}"
+    = Gate "interface" ident "{" InterfaceItems* "}"
 
   InterfaceItems = Gate InterfaceDefinition
 
@@ -89,7 +86,7 @@ Wit {
     | EnumItem
     | VariantItem
     | FlagsItems
-    | FuncItem
+    | ResourceItem
 
   Gate
     = GateItem*
@@ -110,9 +107,7 @@ Wit {
   VersionField = "version" "=" version
 
   FlagsItems
-    = "flags" ident "{" FlagsFields "}"
-
-  FlagsFields = FlagsField ("," FlagsField)*
+    = "flags" ident "{" NonemptyListOf<FlagsField, ","> ","? "}"
 
   FlagsField = ident
 
@@ -120,28 +115,19 @@ Wit {
     = "type" ident "=" TypeRef ";"
 
   VariantItem
-    = "variant" ident "{" VariantCases "}"
-
-  VariantCases
-  	= VariantCase ("," VariantCase)*
+    = "variant" ident "{" NonemptyListOf<VariantCase, ","> ","? "}"
 
   VariantCase
     = ident ("(" TypeRef ")")?
 
   EnumItem
-    = "enum" ident "{" EnumCases "}"
-
-  EnumCases
-  	= EnumCase ("," EnumCase)*
+    = "enum" ident "{" NonemptyListOf<ident, ","> ","? "}"
 
   EnumCase
     = ident
 
   RecordItem
-    = "record" ident "{" RecordFields "}"
-
-  RecordFields
-  	= RecordField ("," RecordField)*
+    = "record" ident "{" NonemptyListOf<RecordField, ","> ","? "}"
 
   RecordField
     = ident ":" TypeRef
@@ -150,21 +136,21 @@ Wit {
   	= "resource" ident "{" ResourceMethod* "}"
 
   ResourceMethod
-    = FuncItem -- method
-    | ident ":" "static" FuncType ";" -- static
-    | "constructor" ParamList ";" -- constructor
+    = ident ":" "static" FuncType ";"   -- static
+    | FuncItem                                -- method
+    | "constructor" ParamList ";"             -- constructor
 
   FuncItem = ident ":" FuncType ";"
 
   FuncType = "async"? "func" ParamList ResultList?
 
-  ParamList = "(" NamedTypeList? ")"
+  ResultList = "->" TypeRef
 
-  NamedTypeList = NamedType ("," NamedType)*
+  ParamList = "(" NamedTypeList ")"
+
+  NamedTypeList = ListOf<NamedType, ",">
 
   NamedType = ident ":" TypeRef
-
-  ResultList = "->" TypeRef
 
   TypeRef
   	= SimpleType
@@ -178,11 +164,11 @@ Wit {
 
   ResultType = "result" "<" TypeRef ("," TypeRef)? ">"
 
-  TupleType = "tuple<" TypeRef ("," TypeRef)* ">"
+  TupleType = "tuple" "<" NonemptyListOf<TypeRef, ","> ","? ">"
 
-  OptionType = "option<" TypeRef ">"
+  OptionType = "option" "<" TypeRef ">"
 
-  ListType = "list<" TypeRef ">"
+  ListType = "list" "<" TypeRef ">"
 
   SimpleType
   	= "s8" | "s16" | "s32" | "s64"

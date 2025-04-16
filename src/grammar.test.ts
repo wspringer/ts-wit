@@ -68,7 +68,7 @@ describe("Wit Grammar", () => {
 
   test("variant definitions", () => {
     matchTest(`
-      interface variants {
+      interface result {
         variant result {
           ok(string),
           error
