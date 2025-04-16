@@ -293,4 +293,16 @@ describe("model.semantics", () => {
     const parsed = parseWit(input);
     expect(parsed).toMatchSnapshot();
   });
+
+  it("should parse gates on functions of interfaces exported from a world", () => {
+    const input = `
+    world foo {
+      export bar: interface {
+        @unstable(feature=jazz) method: func() -> string;
+      }
+    }
+    `;
+    const parsed = parseWit(input);
+    expect(parsed).toMatchSnapshot();
+  });
 });

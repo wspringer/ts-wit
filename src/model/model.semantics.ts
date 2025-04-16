@@ -367,7 +367,6 @@ function defineModel(semantics: WitSemantics) {
     FuncType(async_, func, params, result): Omit<Func, "name"> {
       return {
         params: params.toModel(),
-        // params: [],
         result: result?.children[0]?.toModel(),
       };
     },
