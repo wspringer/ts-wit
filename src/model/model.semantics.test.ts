@@ -70,6 +70,15 @@ describe("model.semantics", () => {
     expect(parsed).toMatchSnapshot();
   });
 
+  it("should parse an interface with a type alias pointing to a tuple", () => {
+    const input = `interface bar {
+      type foo = tuple<string, s16>;
+    }`;
+    expect(() => parseWit(input)).not.toThrow();
+    const parsed = parseWit(input);
+    expect(parsed).toMatchSnapshot();
+  });
+
   it("should parse an interface with an enum", () => {
     const input = `interface bar {
       enum foo {
@@ -131,4 +140,14 @@ describe("model.semantics", () => {
     const parsed = parseWit(input);
     expect(parsed).toMatchSnapshot();
   });
+
+  it("should parse a world", () => {
+    const input = `
+    world foo {
+    }
+    `;
+    expect(() => parseWit(input)).not.toThrow();
+    const parsed = parseWit(input);
+    expect(parsed).toMatchSnapshot();
+  })
 });

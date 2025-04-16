@@ -164,7 +164,7 @@ Wit {
 
   ResultType = "result" "<" TypeRef ("," TypeRef)? ">"
 
-  TupleType = "tuple" "<" TypeRef ("," TypeRef)* ">"
+  TupleType = "tuple" "<" NonemptyListOf<TypeRef, ","> ","? ">"
 
   OptionType = "option" "<" TypeRef ">"
 

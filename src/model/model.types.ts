@@ -41,7 +41,7 @@ export type InterfaceContainer<M> = {
   interfaces: InterfaceDef<M>[];
 };
 
-export type World<M> = {
+export type World<M = {}> = {
   name: string;
   exports: {
     functions: Func<M>[];
@@ -84,10 +84,10 @@ export type TypeDef<M = {}> = (
 ) &
   MetaOf<M, "TypeDef">;
 
-export type TupleType<M> = {
+export type TupleType<M = {}> = {
   kind: "tuple";
   items: Ty<M>[];
-};
+} & MetaOf<M, "TupleType">;
 
 export type SimpleType =
   | "s8"

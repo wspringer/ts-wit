@@ -14,11 +14,13 @@ import {
   RecordField,
   ResultType,
   SimpleType,
+  TupleType,
   Ty,
   TypeDef,
   VariantCase,
   VariantDef,
   Wit,
+  World,
 } from "./model.types";
 import { grammar } from "../grammar";
 
@@ -33,6 +35,9 @@ function defineModel(semantics: WitSemantics) {
       const items: Item<any, any>[] = packageItems.children.map((child) =>
         child.toModel()
       );
+      const worlds: World[] = items
+        .filter((item) => item.kind === "world")
+        .map((item) => item.boxed);
       const interfaces: InterfaceDef[] = items
         .filter((item) => item.kind === "interface")
         .map((item) => item.boxed);
@@ -45,12 +50,36 @@ function defineModel(semantics: WitSemantics) {
         uses: [],
         packages,
         interfaces,
-        worlds: [],
+        worlds,
       };
     },
 
     PackageDecl(package_, name): string {
       return name.sourceString;
+    },
+
+    WorldItem(
+      gate,
+      world,
+      ident,
+      openBrace,
+      worldItems,
+      closeBrace
+    ): Item<"world", World> {
+      return {
+        kind: "world",
+        boxed: {
+          name: ident.sourceString,
+          exports: {
+            functions: [],
+            interfaces: [],
+          },
+          imports: {
+            functions: [],
+            interfaces: [],
+          },
+        },
+      };
     },
 
     InterfaceItem(
@@ -120,6 +149,13 @@ function defineModel(semantics: WitSemantics) {
 
     ResultList(arrow, result): Ty {
       return result.toModel();
+    },
+
+    TupleType(tuple, openParen, types, comma, closeParen): TupleType {
+      return {
+        kind: "tuple",
+        items: types.asIteration().children.map((child) => child.toModel()),
+      };
     },
 
     ListType(list, openAngle, type, closeAngle): ListType {
