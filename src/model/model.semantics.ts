@@ -372,19 +372,20 @@ function defineModel(semantics: WitSemantics) {
       resourceMethods,
       closeBrace
     ): Item<"typeDef", ResourceDef> {
-      const items: (Item<"func", Func> | Item<"static", Func>)[] =
-        resourceMethods.children.map((child) => child.toModel());
+      const items: (
+        | Item<"func", Func>
+        | Item<"static", Func>
+        | Item<"constructor", { params: Param[] }>
+      )[] = resourceMethods.children.map((child) => child.toModel());
       const methods: Func[] = items
         .filter((item) => item.kind === "func")
         .map((item) => item.boxed);
       const staticMethods: Func[] = items
         .filter((item) => item.kind === "static")
         .map((item) => item.boxed);
-      // const constructor: { params: Param[] } = items
-      //   .filter((item) => item.kind === "constructor")
-      //   .map((item) => ({
-      //     params: item.boxed;
-      //   }));
+      const constructor = items.find(
+        (item) => item.kind === "constructor"
+      )?.boxed;
       return {
         kind: "typeDef",
         boxed: {
@@ -392,7 +393,7 @@ function defineModel(semantics: WitSemantics) {
           name: ident.sourceString,
           methods,
           staticMethods,
-          constructor: undefined,
+          constructor,
         },
       };
     },
@@ -417,6 +418,19 @@ function defineModel(semantics: WitSemantics) {
       };
     },
 
+    ResourceMethod_constructor(
+      constructor,
+      params,
+      semicolon
+    ): Item<"constructor", { params: Param[] }> {
+      return {
+        kind: "constructor",
+        boxed: {
+          params: params.toModel(),
+        },
+      };
+    },
+
     FuncType(async_, func, params, result): Omit<Func, "name"> {
       return {
         params: params.toModel(),
@@ -429,8 +443,7 @@ function defineModel(semantics: WitSemantics) {
     },
 
     NamedTypeList(params): Param[] {
-      params.children[0].children.length; //?
-      return params.children[0].children.map((child) => child.toModel());
+      return params.asIteration().children.map((child) => child.toModel());
     },
 
     NamedType(name, colon, type): Param {

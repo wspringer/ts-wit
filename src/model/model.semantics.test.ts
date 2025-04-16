@@ -318,4 +318,19 @@ describe("model.semantics", () => {
     const parsed = parseWit(input);
     expect(parsed).toMatchSnapshot();
   });
+
+  it("should parse resources with a constructor", () => {
+    const input = `
+    interface bar {
+      resource foo {
+        method: func() -> string;
+        test: static func(a: string) -> string;
+        constructor(a: string, b: int);
+      }
+    }
+    `;
+    const parsed = parseWit(input);
+    expect(parsed).toMatchSnapshot();
+  });
+
 });

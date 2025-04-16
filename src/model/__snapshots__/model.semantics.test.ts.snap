@@ -249,8 +249,6 @@ exports[`model.semantics should parse an interface declaration with a parameteri
               "name": "a",
               "type": "string",
             },
-            [],
-            [],
           ],
           "result": "string",
         },
@@ -450,32 +448,6 @@ exports[`model.semantics should parse an interface with a variant 1`] = `
 `;
 
 exports[`model.semantics should parse an interface with an enum 1`] = `
-{
-  "interfaces": [
-    {
-      "functions": [],
-      "name": "bar",
-      "typeDefs": [
-        {
-          "cases": [
-            "A",
-            "B",
-            "C",
-          ],
-          "kind": "enum",
-          "name": "foo",
-        },
-      ],
-    },
-  ],
-  "name": undefined,
-  "packages": [],
-  "uses": [],
-  "worlds": [],
-}
-`;
-
-exports[`model.semantics should parse an interface with an enum 2`] = `
 {
   "interfaces": [
     {
@@ -750,6 +722,58 @@ exports[`model.semantics should parse resources 1`] = `
             {
               "name": "test",
               "params": [],
+              "result": "string",
+            },
+          ],
+        },
+      ],
+    },
+  ],
+  "name": undefined,
+  "packages": [],
+  "uses": [],
+  "worlds": [],
+}
+`;
+
+exports[`model.semantics should parse resources with a constructor 1`] = `
+{
+  "interfaces": [
+    {
+      "functions": [],
+      "name": "bar",
+      "typeDefs": [
+        {
+          "constructor": {
+            "params": [
+              {
+                "name": "a",
+                "type": "string",
+              },
+              {
+                "name": "b",
+                "type": "int",
+              },
+            ],
+          },
+          "kind": "resource",
+          "methods": [
+            {
+              "name": "method",
+              "params": [],
+              "result": "string",
+            },
+          ],
+          "name": "foo",
+          "staticMethods": [
+            {
+              "name": "test",
+              "params": [
+                {
+                  "name": "a",
+                  "type": "string",
+                },
+              ],
               "result": "string",
             },
           ],
