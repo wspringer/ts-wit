@@ -183,4 +183,24 @@ describe("model.semantics", () => {
     const parsed = parseWit(input);
     expect(parsed).toMatchSnapshot();
   });
+
+  it("should parse a world with an imported function", () => {
+    const input = `
+    world foo {
+      import bar: func() -> string;
+    }
+    `;
+    const parsed = parseWit(input);
+    expect(parsed).toMatchSnapshot();
+  });
+
+  it("should parse a world with an imported interface", () => {
+    const input = `
+    world foo {
+      import bar: interface {}
+    }
+    `;
+    const parsed = parseWit(input);
+    expect(parsed).toMatchSnapshot();
+  });
 });

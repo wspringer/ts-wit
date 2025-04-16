@@ -73,6 +73,12 @@ function defineModel(semantics: WitSemantics) {
       const exportedInterfaces: InterfaceDef[] = items
         .filter((item) => item.kind === "export-interface")
         .map((item) => item.boxed);
+      const importedFunctions: Func[] = items
+        .filter((item) => item.kind === "import-func")
+        .map((item) => item.boxed);
+      const importedInterfaces: InterfaceDef[] = items
+        .filter((item) => item.kind === "import-interface")
+        .map((item) => item.boxed);
       return {
         kind: "world",
         boxed: {
@@ -82,8 +88,8 @@ function defineModel(semantics: WitSemantics) {
             interfaces: exportedInterfaces,
           },
           imports: {
-            functions: [],
-            interfaces: [],
+            functions: importedFunctions,
+            interfaces: importedInterfaces,
           },
         },
       };
@@ -92,14 +98,50 @@ function defineModel(semantics: WitSemantics) {
     WorldItems(
       gate,
       worldDefinition
-    ): Item<"export-func", Func> | Item<"export-interface", InterfaceDef> {
+    ): Item<"export-func", Func> | Item<"export-interface", InterfaceDef> | Item<"import-func", Func> | Item<"import-interface", InterfaceDef> {
       return worldDefinition.toModel();
     },
+
+    ImportItem(
+      importItem
+    ): Item<"import-func", Func> | Item<"import-interface", InterfaceDef> {
+      return importItem.toModel();
+    },
+
 
     ExportItem(
       exportItem
     ): Item<"export-func", Func> | Item<"export-interface", InterfaceDef> {
       return exportItem.toModel();
+    },
+
+    ImportItemExternType(
+      export_,
+      ident,
+      colon,
+      externType
+    ): Item<"import-func", Func> | Item<"import-interface", InterfaceDef> {
+      const name = ident.sourceString;
+      const type = externType.toModel();
+      switch (type.kind) {
+        case "func":
+          return {
+            kind: "import-func",
+            boxed: {
+              name,
+              ...type.boxed,
+            },
+          };
+        case "interface":
+          return {
+            kind: "import-interface",
+            boxed: {
+              name,
+              ...type.boxed,
+            },
+          };
+      }
+      throw new Error(`Unknown extern type: ${type.kind}`);
     },
 
     ExportItemExternType(
