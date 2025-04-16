@@ -203,4 +203,13 @@ describe("model.semantics", () => {
     const parsed = parseWit(input);
     expect(parsed).toMatchSnapshot();
   });
+
+  it("should parse top level use statements", () => {
+    const input = `
+    use foo:bar@0.0.1;
+    `;
+    const parsed = parseWit(input);
+    expect(parsed).toMatchSnapshot();
+  });
+
 });

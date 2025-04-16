@@ -529,3 +529,18 @@ exports[`model.semantics should parse nested packages 1`] = `
   "worlds": [],
 }
 `;
+
+exports[`model.semantics should parse top level use statements 1`] = `
+{
+  "interfaces": [],
+  "name": undefined,
+  "packages": [],
+  "uses": [
+    {
+      "alias": undefined,
+      "path": "foo:bar@0.0.1",
+    },
+  ],
+  "worlds": [],
+}
+`;

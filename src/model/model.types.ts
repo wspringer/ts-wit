@@ -28,10 +28,10 @@ export type Wit<M = {}> = RootPackage<M> &
     uses: Use<M>[];
   };
 
-export type Use<M> = {
+export type Use<M = {}> = {
   path: string;
   alias?: string;
-};
+} & MetaOf<M, "Use">;
 
 export type WorldContainer<M> = {
   worlds: World<M>[];

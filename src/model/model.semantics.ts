@@ -17,6 +17,7 @@ import {
   TupleType,
   Ty,
   TypeDef,
+  Use,
   VariantCase,
   VariantDef,
   Wit,
@@ -44,13 +45,26 @@ function defineModel(semantics: WitSemantics) {
       const packages: NestedPackage[] = items
         .filter((item) => item.kind === "package")
         .map((item) => item.boxed);
+      const uses: Use[] = items
+        .filter((item) => item.kind === "use")
+        .map((item) => item.boxed);
 
       return {
         name: packageDecl.children[0]?.toModel(),
-        uses: [],
+        uses,
         packages,
         interfaces,
         worlds,
+      };
+    },
+
+    ToplevelUseItem(use, usePath, as, ident, semicolon): Item<"use", Use> {
+      return {
+        kind: "use",
+        boxed: {
+          path: usePath.sourceString,
+          alias: ident.children[0]?.toModel(),
+        },
       };
     },
 
@@ -98,7 +112,11 @@ function defineModel(semantics: WitSemantics) {
     WorldItems(
       gate,
       worldDefinition
-    ): Item<"export-func", Func> | Item<"export-interface", InterfaceDef> | Item<"import-func", Func> | Item<"import-interface", InterfaceDef> {
+    ):
+      | Item<"export-func", Func>
+      | Item<"export-interface", InterfaceDef>
+      | Item<"import-func", Func>
+      | Item<"import-interface", InterfaceDef> {
       return worldDefinition.toModel();
     },
 
@@ -107,7 +125,6 @@ function defineModel(semantics: WitSemantics) {
     ): Item<"import-func", Func> | Item<"import-interface", InterfaceDef> {
       return importItem.toModel();
     },
-
 
     ExportItem(
       exportItem
