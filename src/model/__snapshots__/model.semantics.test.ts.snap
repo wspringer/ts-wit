@@ -544,3 +544,18 @@ exports[`model.semantics should parse top level use statements 1`] = `
   "worlds": [],
 }
 `;
+
+exports[`model.semantics should parse top level use statements with an alias 1`] = `
+{
+  "interfaces": [],
+  "name": undefined,
+  "packages": [],
+  "uses": [
+    {
+      "alias": "baz",
+      "path": "foo:bar@0.0.1",
+    },
+  ],
+  "worlds": [],
+}
+`;

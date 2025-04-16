@@ -212,4 +212,12 @@ describe("model.semantics", () => {
     expect(parsed).toMatchSnapshot();
   });
 
+  it("should parse top level use statements with an alias", () => {
+    const input = `
+    use foo:bar@0.0.1 as baz;
+    `;
+    const parsed = parseWit(input);
+    expect(parsed).toMatchSnapshot();
+  });
+
 });
