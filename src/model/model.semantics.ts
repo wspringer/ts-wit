@@ -372,14 +372,47 @@ function defineModel(semantics: WitSemantics) {
       resourceMethods,
       closeBrace
     ): Item<"typeDef", ResourceDef> {
+      const items: (Item<"func", Func> | Item<"static", Func>)[] =
+        resourceMethods.children.map((child) => child.toModel());
+      const methods: Func[] = items
+        .filter((item) => item.kind === "func")
+        .map((item) => item.boxed);
+      const staticMethods: Func[] = items
+        .filter((item) => item.kind === "static")
+        .map((item) => item.boxed);
+      // const constructor: { params: Param[] } = items
+      //   .filter((item) => item.kind === "constructor")
+      //   .map((item) => ({
+      //     params: item.boxed;
+      //   }));
       return {
         kind: "typeDef",
         boxed: {
           kind: "resource",
           name: ident.sourceString,
-          methods: [],
-          static: [],
-          constructor: [],
+          methods,
+          staticMethods,
+          constructor: undefined,
+        },
+      };
+    },
+
+    ResourceMethod_method(funcItem): Item<"func", Func> {
+      return funcItem.toModel();
+    },
+
+    ResourceMethod_static(
+      ident,
+      colon,
+      static_,
+      funcType,
+      semicolon
+    ): Item<"static", Func> {
+      return {
+        kind: "static",
+        boxed: {
+          name: ident.sourceString,
+          ...funcType.toModel(),
         },
       };
     },

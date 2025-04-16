@@ -98,8 +98,8 @@ export type ResourceDef<M = {}> = {
   kind: "resource";
   name: string;
   methods: Func<M>[];
-  static: Func<M>[];
-  constructor: Param<M>[];
+  staticMethods: Func<M>[];
+  constructor?: { params: Param<M>[] };
 } & MetaOf<M, "ResourceDef">;
 
 export type TupleType<M = {}> = {

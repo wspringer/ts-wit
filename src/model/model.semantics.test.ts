@@ -311,8 +311,7 @@ describe("model.semantics", () => {
     interface bar {
       resource foo {
         method: func() -> string;
-        static: func() -> string;
-        constructor: func() -> string;
+        test: static func() -> string;
       }
     }
     `;

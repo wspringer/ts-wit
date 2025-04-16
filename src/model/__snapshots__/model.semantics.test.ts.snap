@@ -736,11 +736,23 @@ exports[`model.semantics should parse resources 1`] = `
       "name": "bar",
       "typeDefs": [
         {
-          "constructor": [],
+          "constructor": undefined,
           "kind": "resource",
-          "methods": [],
+          "methods": [
+            {
+              "name": "method",
+              "params": [],
+              "result": "string",
+            },
+          ],
           "name": "foo",
-          "static": [],
+          "staticMethods": [
+            {
+              "name": "test",
+              "params": [],
+              "result": "string",
+            },
+          ],
         },
       ],
     },
