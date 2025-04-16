@@ -284,4 +284,13 @@ describe("model.semantics", () => {
     const parsed = parseWit(input);
     expect(parsed).toMatchSnapshot();
   });
+
+  it("should parse gates on interfaces with members", () => {
+    const input = `
+    interface bar {
+      @unstable(feature=jazz) method: func() -> string;
+    }`;
+    const parsed = parseWit(input);
+    expect(parsed).toMatchSnapshot();
+  });
 });

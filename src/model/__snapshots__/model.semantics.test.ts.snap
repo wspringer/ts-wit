@@ -594,6 +594,29 @@ exports[`model.semantics should parse gates on interfaces 1`] = `
 }
 `;
 
+exports[`model.semantics should parse gates on interfaces with members 1`] = `
+{
+  "interfaces": [
+    {
+      "functions": [
+        {
+          "name": "method",
+          "params": [],
+          "result": "string",
+          "unstable": "jazz",
+        },
+      ],
+      "name": "bar",
+      "typeDefs": [],
+    },
+  ],
+  "name": undefined,
+  "packages": [],
+  "uses": [],
+  "worlds": [],
+}
+`;
+
 exports[`model.semantics should parse include statements 1`] = `
 {
   "interfaces": [],

@@ -76,10 +76,13 @@ function defineModel(semantics: WitSemantics) {
 
     Gate(gateItems): Gated {
       const items: Gated[] = gateItems.children.map((child) => child.toModel());
-      return items.reduce((acc, item) => ({
-        ...acc,
-        ...item,
-      }), {});
+      return items.reduce(
+        (acc, item) => ({
+          ...acc,
+          ...item,
+        }),
+        {}
+      );
     },
 
     GateItem(gateItem): Gated {
@@ -337,8 +340,15 @@ function defineModel(semantics: WitSemantics) {
       };
     },
 
-    InterfaceItems(gate, definition): InterfaceDef {
-      return definition.toModel();
+    InterfaceItems(gate, definition): Item<any, any> {
+      const item: Item<any, object> = definition.toModel();
+      return {
+        kind: item.kind,
+        boxed: {
+          ...gate.toModel(),
+          ...item.boxed,
+        },
+      };
     },
 
     FuncItem(ident, colon, funcType, semicolon): Item<"func", Func> {
