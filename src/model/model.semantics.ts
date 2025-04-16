@@ -66,18 +66,106 @@ function defineModel(semantics: WitSemantics) {
       worldItems,
       closeBrace
     ): Item<"world", World> {
+      const items = worldItems.children.map((child) => child.toModel());
+      const exportedFunctions: Func[] = items
+        .filter((item) => item.kind === "export-func")
+        .map((item) => item.boxed);
+      const exportedInterfaces: InterfaceDef[] = items
+        .filter((item) => item.kind === "export-interface")
+        .map((item) => item.boxed);
       return {
         kind: "world",
         boxed: {
           name: ident.sourceString,
           exports: {
-            functions: [],
-            interfaces: [],
+            functions: exportedFunctions,
+            interfaces: exportedInterfaces,
           },
           imports: {
             functions: [],
             interfaces: [],
           },
+        },
+      };
+    },
+
+    WorldItems(
+      gate,
+      worldDefinition
+    ): Item<"export-func", Func> | Item<"export-interface", InterfaceDef> {
+      return worldDefinition.toModel();
+    },
+
+    ExportItem(
+      exportItem
+    ): Item<"export-func", Func> | Item<"export-interface", InterfaceDef> {
+      return exportItem.toModel();
+    },
+
+    ExportItemExternType(
+      export_,
+      ident,
+      colon,
+      externType
+    ): Item<"export-func", Func> | Item<"export-interface", InterfaceDef> {
+      const name = ident.sourceString;
+      const type = externType.toModel();
+      switch (type.kind) {
+        case "func":
+          return {
+            kind: "export-func",
+            boxed: {
+              name,
+              ...type.boxed,
+            },
+          };
+        case "interface":
+          return {
+            kind: "export-interface",
+            boxed: {
+              name,
+              ...type.boxed,
+            },
+          };
+      }
+      throw new Error(`Unknown extern type: ${type.kind}`);
+    },
+
+    ExternType(
+      externType
+    ):
+      | Item<"func", Omit<Func, "name">>
+      | Item<"interface", Omit<InterfaceDef, "name">> {
+      return externType.toModel();
+    },
+
+    ExternTypeFunc(funcType, semicolon): Item<"func", Omit<Func, "name">> {
+      return {
+        kind: "func",
+        boxed: {
+          ...funcType.toModel(),
+        },
+      };
+    },
+
+    ExternTypeInterface(
+      interface_,
+      lbrace,
+      interfaceItems,
+      rbrace
+    ): Item<"interface", Omit<InterfaceDef, "name">> {
+      const items = interfaceItems.children.map((child) => child.toModel());
+      const functions: Func[] = items
+        .filter((item) => item.kind === "func")
+        .map((item) => item.boxed);
+      const typeDefs: TypeDef[] = items
+        .filter((item) => item.kind === "typeDef")
+        .map((item) => item.boxed);
+      return {
+        kind: "interface",
+        boxed: {
+          functions,
+          typeDefs,
         },
       };
     },

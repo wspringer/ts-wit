@@ -149,5 +149,38 @@ describe("model.semantics", () => {
     expect(() => parseWit(input)).not.toThrow();
     const parsed = parseWit(input);
     expect(parsed).toMatchSnapshot();
-  })
+  });
+
+  it("should parse a world with an exported function", () => {
+    const input = `
+    world foo {
+      export bar: func() -> string;
+    }
+    `;
+    expect(() => parseWit(input)).not.toThrow();
+    const parsed = parseWit(input);
+    expect(parsed).toMatchSnapshot();
+  });
+
+  it("should parse a world with an exported interface", () => {
+    const input = `
+    world foo {
+      export bar: interface {}
+    }
+    `;
+    const parsed = parseWit(input);
+    expect(parsed).toMatchSnapshot();
+  });
+
+  it("should parse a world with an interface with members ", () => {
+    const input = `
+    world foo {
+      export bar: interface {
+        method: func() -> string;
+      }
+    }
+    `;
+    const parsed = parseWit(input);
+    expect(parsed).toMatchSnapshot();
+  });
 });
