@@ -10,7 +10,12 @@
     "readme": "runmd README.js.md --lame --output README.md",
     "copy-js": "cp src/grammar.ohm-bundle.* dist/"
   },
-  "keywords": [],
+  "keywords": [
+    "wit",
+    "parser",
+    "typescript",
+    "webassembly"
+  ],
   "author": "Wilfred Springer <wilfred@eastpole.nl>",
   "license": "MIT",
   "devDependencies": {
