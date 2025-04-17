@@ -53,3 +53,14 @@ parseWit(wit); //RESULT
 ```
 
 The type structure might be a bit cryptic, but it's defined [here](src/ast.ts).
+
+It will give you sensible errors in case you enter something not conforming to
+the grammar.
+
+```javascript --run std
+try {
+  parseWit(`package foo@0.0.0;`);
+} catch (e) {
+  console.log(e);
+}
+```
