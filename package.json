@@ -8,7 +8,8 @@
     "test": "jest",
     "build": "tsc",
     "readme": "runmd README.js.md --lame --output README.md",
-    "copy-js": "cp src/grammar.ohm-bundle.* dist/"
+    "copy-js": "cp src/grammar.ohm-bundle.* dist/",
+    "prepare": "husky install"
   },
   "keywords": [
     "wit",
@@ -21,6 +22,7 @@
   "devDependencies": {
     "@ohm-js/cli": "^2.0.0",
     "@types/jest": "^29.5.14",
+    "husky": "^9.1.7",
     "jest": "^29.7.0",
     "ts-jest": "^29.3.0",
     "tsdoc-markdown": "^1.2.0",
