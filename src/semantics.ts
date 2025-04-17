@@ -7,6 +7,7 @@ import {
   Gated,
   Include,
   InterfaceDef,
+  InterfaceRef,
   ListType,
   NestedPackage,
   OptionType,
@@ -127,13 +128,13 @@ export function defineModel(semantics: WitSemantics) {
       const exportedFunctions: Func[] = items
         .filter((item) => item.kind === "export-func")
         .map((item) => item.boxed);
-      const exportedInterfaces: InterfaceDef[] = items
+      const exportedInterfaces: (InterfaceDef|InterfaceRef)[] = items
         .filter((item) => item.kind === "export-interface")
         .map((item) => item.boxed);
       const importedFunctions: Func[] = items
         .filter((item) => item.kind === "import-func")
         .map((item) => item.boxed);
-      const importedInterfaces: InterfaceDef[] = items
+      const importedInterfaces: (InterfaceDef|InterfaceRef)[] = items
         .filter((item) => item.kind === "import-interface")
         .map((item) => item.boxed);
       const includes: Include[] = items
@@ -142,7 +143,7 @@ export function defineModel(semantics: WitSemantics) {
       const typeDefs: TypeDef[] = items
         .filter((item) => item.kind === "typeDef")
         .map((item) => item.boxed);
-      return {
+        return {
         kind: "world",
         boxed: {
           name: ident.sourceString,
@@ -244,6 +245,15 @@ export function defineModel(semantics: WitSemantics) {
           };
       }
       throw new Error(`Unknown extern type: ${type.kind}`);
+    },
+
+    ExportItemUsePath(export_, usePath, semicolon): Item<"export-interface", InterfaceRef> {
+      return {
+        kind: "export-interface",
+        boxed: {
+          ref: usePath.sourceString,
+        },
+      };
     },
 
     ExportItemExternType(
@@ -481,7 +491,7 @@ export function defineModel(semantics: WitSemantics) {
       return {
         kind: "result",
         ok: ok.toModel(),
-        error: error.children[1]?.toModel(),
+        error: error.children[0]?.toModel(),
       };
     },
 

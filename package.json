@@ -2,11 +2,13 @@
   "name": "ts-wit",
   "version": "0.1.0",
   "description": "A WIT parser written in TypeScript",
-  "main": "index.js",
+  "main": "dist/index.js",
   "scripts": {
     "regenerate": "npx ohm generateBundles --withTypes src/grammar.ohm",
     "test": "jest",
-    "build": "tsc"
+    "build": "tsc",
+    "readme": "runmd README.js.md --lame --output README.md",
+    "copy-js": "cp src/grammar.ohm-bundle.* dist/"
   },
   "keywords": [],
   "author": "Wilfred Springer <wilfred@eastpole.nl>",
@@ -19,6 +21,7 @@
     "typescript": "^5.8.2"
   },
   "dependencies": {
-    "ohm-js": "^17.1.0"
+    "ohm-js": "^17.1.0",
+    "runmd": "^1.4.1"
   }
 }

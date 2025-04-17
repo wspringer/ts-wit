@@ -41,6 +41,39 @@ exports[`model.semantics should parse a record 1`] = `
 }
 `;
 
+exports[`model.semantics should parse a typeref 1`] = `
+{
+  "interfaces": [
+    {
+      "functions": [],
+      "name": "bar",
+      "typeDefs": [
+        {
+          "kind": "alias",
+          "name": "foo",
+          "type": "string",
+        },
+        {
+          "kind": "alias",
+          "name": "bnd",
+          "type": {
+            "kind": "list",
+            "type": {
+              "kind": "option",
+              "type": "foo",
+            },
+          },
+        },
+      ],
+    },
+  ],
+  "name": undefined,
+  "packages": [],
+  "uses": [],
+  "worlds": [],
+}
+`;
+
 exports[`model.semantics should parse a world 1`] = `
 {
   "interfaces": [],
@@ -344,7 +377,7 @@ exports[`model.semantics should parse an interface with a type alias pointing to
           "kind": "alias",
           "name": "foo",
           "type": {
-            "error": undefined,
+            "error": "string",
             "kind": "result",
             "ok": "string",
           },
@@ -493,6 +526,34 @@ exports[`model.semantics should parse deprecated gates in a world 1`] = `
       "name": "foo",
       "typeDefs": [],
       "until": "1.0.0",
+    },
+  ],
+}
+`;
+
+exports[`model.semantics should parse export statements 1`] = `
+{
+  "interfaces": [],
+  "name": undefined,
+  "packages": [],
+  "uses": [],
+  "worlds": [
+    {
+      "exports": {
+        "functions": [],
+        "interfaces": [
+          {
+            "ref": "bar",
+          },
+        ],
+      },
+      "imports": {
+        "functions": [],
+        "interfaces": [],
+      },
+      "includes": [],
+      "name": "foo",
+      "typeDefs": [],
     },
   ],
 }

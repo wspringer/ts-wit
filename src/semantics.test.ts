@@ -332,4 +332,21 @@ describe("model.semantics", () => {
     const parsed = parseWit(input);
     expect(parsed).toMatchSnapshot();
   });
+
+  it("should parse export statements", () => {
+    const input = `world foo {
+      export bar;
+    }`;
+    const parsed = parseWit(input);
+    expect(parsed).toMatchSnapshot();
+  });
+
+  it("should parse a typeref", () => {
+    const input = `interface bar {
+      type foo = string;
+      type bnd = list<option<foo>>;
+    }`;
+    const parsed = parseWit(input);
+    expect(parsed).toMatchSnapshot();
+  });
 });
