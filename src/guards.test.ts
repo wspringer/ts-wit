@@ -65,7 +65,7 @@ describe("Type Guards", () => {
 
   describe("Ty Guards", () => {
     test("isTypeRef", () => {
-      const typeRef = { name: "MyType" };
+      const typeRef = { ref: "MyType" };
       expect(isTypeRef(typeRef)).toBe(true);
       expect(isTypeRef("string")).toBe(false);
       expect(isTypeRef({ kind: "option", type: "string" })).toBe(false);
@@ -84,35 +84,35 @@ describe("Type Guards", () => {
           type: "string",
         })
       ).toBe(false);
-      expect(isSimpleType({ name: "MyType" })).toBe(false);
+      expect(isSimpleType({ ref: "MyType" })).toBe(false);
     });
 
     test("isOptionType", () => {
       const optionType: Ty = { kind: "option", type: "string" };
       expect(isOptionType(optionType)).toBe(true);
       expect(isOptionType("string")).toBe(false);
-      expect(isOptionType({ name: "MyType" })).toBe(false);
+      expect(isOptionType({ ref: "MyType" })).toBe(false);
     });
 
     test("isListType", () => {
       const listType: Ty = { kind: "list", type: "string" };
       expect(isListType(listType)).toBe(true);
       expect(isListType("string")).toBe(false);
-      expect(isListType({ name: "MyType" })).toBe(false);
+      expect(isListType({ ref: "MyType" })).toBe(false);
     });
 
     test("isResultType", () => {
       const resultType: Ty = { kind: "result", ok: "string", error: "string" };
       expect(isResultType(resultType)).toBe(true);
       expect(isResultType("string")).toBe(false);
-      expect(isResultType({ name: "MyType" })).toBe(false);
+      expect(isResultType({ ref: "MyType" })).toBe(false);
     });
 
     test("isTupleType", () => {
       const tupleType: Ty = { kind: "tuple", items: ["string", "u16"] };
       expect(isTupleType(tupleType)).toBe(true);
       expect(isTupleType("string")).toBe(false);
-      expect(isTupleType({ name: "MyType" })).toBe(false);
+      expect(isTupleType({ ref: "MyType" })).toBe(false);
       expect(isTupleType({ kind: "option", type: "string" })).toBe(false);
     });
   });

@@ -37,7 +37,7 @@ export function isResourceDef<M>(
 }
 
 export function isTypeRef<M>(ty: Ty<M>): ty is TypeRef<M> {
-  return typeof ty === "object" && "name" in ty && !("kind" in ty);
+  return typeof ty === "object" && "ref" in ty && !("kind" in ty);
 }
 
 export function isSimpleType<M>(ty: Ty<M>): ty is SimpleType {

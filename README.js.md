@@ -45,8 +45,8 @@ world simple-encryption {
 }`;
 ```
 
-You will get a TypeScript representaton of the structure defined by the WIT
-file.
+You will get a TypeScript model of the structure defined by the WIT file. Think
+of it as an AST with some extra properties.
 
 ```javascript --run std
 parseWit(wit); //RESULT
