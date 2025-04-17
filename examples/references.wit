@@ -1,0 +1,22 @@
+package limit:foo;
+
+package zoo:bar {
+  interface a {
+    type size = u32;
+    resolve: func() -> result<tuple<bool, bool>, string>;
+    type weird = string;
+  }
+}
+
+interface b {
+  use types.{size};
+  resolve: func(x: size) -> result<string, string>;
+}
+
+world c {
+  use zoo:bar/a.{weird};
+
+  export challenge: func() -> weird;
+}
+
+

@@ -1,0 +1,68 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`qualification should qualify a Wit 1`] = `
+{
+  "interfaces": [
+    {
+      "fqn": "foo:bar@1.0.0/foo",
+      "functions": [],
+      "name": "foo",
+      "typeDefs": [
+        {
+          "fqn": "foo:bar@1.0.0/foo/weird",
+          "kind": "alias",
+          "name": "weird",
+          "type": "string",
+        },
+      ],
+    },
+  ],
+  "name": "foo:bar@1.0.0",
+  "packages": [],
+  "uses": [],
+  "worlds": [
+    {
+      "exports": {
+        "functions": [],
+        "interfaces": [
+          {
+            "fqn": "foo:bar@1.0.0/ranger/sky",
+            "functions": [],
+            "name": "sky",
+            "typeDefs": [
+              {
+                "fqn": "foo:bar@1.0.0/ranger/sky/weird",
+                "kind": "alias",
+                "name": "weird",
+                "type": "string",
+              },
+            ],
+          },
+        ],
+      },
+      "fqn": "foo:bar@1.0.0/ranger",
+      "imports": {
+        "functions": [],
+        "interfaces": [
+          {
+            "fqn": "foo:bar@1.0.0/ranger/sky",
+            "functions": [],
+            "name": "sky",
+            "typeDefs": [
+              {
+                "fqn": "foo:bar@1.0.0/ranger/sky/weird",
+                "kind": "alias",
+                "name": "weird",
+                "type": "string",
+              },
+            ],
+          },
+        ],
+      },
+      "includes": [],
+      "name": "ranger",
+      "typeDefs": [],
+    },
+  ],
+}
+`;

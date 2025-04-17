@@ -12,6 +12,7 @@ import {
   ResultType,
   TupleType,
   ResourceDef,
+  InterfaceDef,
 } from "./ast";
 
 export function isAliasDef<M>(typeDef: TypeDef<M>): typeDef is AliasDef<M> {
@@ -75,4 +76,14 @@ export function isResultType<M>(ty: Ty<M>): ty is ResultType<M> {
 
 export function isTupleType<M>(ty: Ty<M>): ty is TupleType<M> {
   return typeof ty === "object" && "items" in ty && ty.kind === "tuple";
+}
+
+export function isInterfaceDef<M>(value: any): value is InterfaceDef<M> {
+  return (
+    typeof value === "object" &&
+    value !== null &&
+    "name" in value &&
+    "functions" in value &&
+    "typeDefs" in value
+  );
 }

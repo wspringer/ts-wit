@@ -4,7 +4,7 @@
  * various stages of the parsing process. (This prevents use from having to
  * repeat the same structures over and over again.)
  */
-type MetaOf<M, T extends string> = M extends {
+export type MetaOf<M, T extends string> = M extends {
   [K in T]: infer U;
 }
   ? U
@@ -21,7 +21,8 @@ export type RootPackage<M> = Package<M> & {
 
 export type NestedPackage<M = {}> = {
   name: string;
-} & InterfaceContainer<M>;
+} & InterfaceContainer<M> &
+  MetaOf<M, "NestedPackage">;
 
 export type Wit<M = {}> = RootPackage<M> &
   WorldContainer<M> & {
@@ -53,7 +54,8 @@ export type World<M = {}> = {
   };
   includes: Include<M>[];
   typeDefs: TypeDef<M>[];
-} & Gated;
+} & Gated &
+  MetaOf<M, "World">;
 
 export type Include<M = {}> = {
   path: string;
@@ -66,7 +68,7 @@ export type Func<M = {}> = {
   name: string;
   params: Param<M>[];
   result?: Ty<M>;
-};
+} & MetaOf<M, "Func">;
 
 export type Param<M = {}> = {
   name: string;
