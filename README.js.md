@@ -4,9 +4,10 @@ This is a WIT parser built in TypeScript directly. It was built largely on the
 specification found
 [here](https://github.com/WebAssembly/component-model/blob/main/design/mvp/WIT.md).
 
-It's very much work in progress, and there's a fair chance I will never finish
-it at all. If you're looking for a serious serious WIT parser, then you should
-probably take a look at the wit-parser crate. This parser is far from complete.
+This is all very much work in progress, and there's a fair chance I will never
+finish it at all. If you're looking for a **serious** WIT parser, then you should
+probably take a look at the [wit-parser](https://crates.io/crates/wit-parser)
+crate. This NPM module is far from complete. You have been warned.
 
 ## How to use it
 
