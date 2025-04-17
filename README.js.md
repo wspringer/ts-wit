@@ -61,6 +61,6 @@ the grammar.
 try {
   parseWit(`package foo@0.0.0;`);
 } catch (e) {
-  console.log(e);
+  console.log(e.message);
 }
 ```

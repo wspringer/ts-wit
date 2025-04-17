@@ -96,20 +96,10 @@ the grammar.
 try {
   parseWit(`package foo@0.0.0;`);
 } catch (e) {
-  console.log(e);
+  console.log(e.message);
 }
-⇒ Error: Line 1, col 12:
+⇒ Line 1, col 12:
 ⇒ > 1 | package foo@0.0.0;
 ⇒                  ^
 ⇒ Expected ":"
-⇒     at parseWit (/Users/wilfred/workspace/ts-wit/dist/parser.js:11:15)
-⇒     at README.js.md:62:3
-⇒     at Script.runInContext (node:vm:134:12)
-⇒     at Object.runInContext (node:vm:282:6)
-⇒     at /Users/wilfred/workspace/ts-wit/node_modules/runmd/index.js:273:12
-⇒     at Array.forEach (<anonymous>)
-⇒     at render (/Users/wilfred/workspace/ts-wit/node_modules/runmd/index.js:224:9)
-⇒     at run (/Users/wilfred/workspace/ts-wit/node_modules/runmd/cli.js:47:16)
-⇒     at Object.<anonymous> (/Users/wilfred/workspace/ts-wit/node_modules/runmd/cli.js:79:1)
-⇒     at Module._compile (node:internal/modules/cjs/loader:1255:14)
 ```
