@@ -23,7 +23,7 @@ You import the `parseWit` function.
 import { parseWit } from "ts-wit";
 ```
 
-You call `parseWit` on the WIT file.ß
+You call `parseWit` on the WIT file.
 
 ```javascript
 const wit = `
